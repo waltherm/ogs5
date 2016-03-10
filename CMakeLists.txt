@@ -77,11 +77,11 @@ MARK_AS_ADVANCED(FORCE OGS_CMAKE_DEBUG OGS_BUILD_INFO CMAKE_CMD_ARGS)
 ###########################################################################
 SET (OGS_VERSION_MAJOR 5)
 SET (OGS_VERSION_MINOR 3)
-SET (OGS_VERSION_PATCH 3-geothermal)
+SET (OGS_VERSION_PATCH 4-geothermal)
 SET (OGS_RELEASE_PERSONS "NW")
 SET (OGS_VERSION "${OGS_VERSION_MAJOR}.${OGS_VERSION_MINOR}.${OGS_VERSION_PATCH}(${OGS_RELEASE_PERSONS})")
 # should we use ISO dates: 2010-12-31 ?
-SET (OGS_DATE "07.11.2014")
+SET (OGS_DATE "2016-03-10")
 
 # Check for number of processors
 INCLUDE(ProcessorCount)
