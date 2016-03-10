@@ -7,6 +7,8 @@ OpenGeoSys5-EGS
 
 This code is a branch of OpenGeoSys5 specially developed for modeling deep geothermal reservoirs. The code will not support all the features in the official version (https://github.com/ufz/ogs5).
 
+## OpenGeoSys project ##
+
 [OpenGeoSys][ogs] (OGS) is a scientific open source project for the development of
 numerical methods for the simulation of thermo-hydro-mechanical-chemical
 (THMC) processes in porous and fractured media. OGS is implemented in C++, it
