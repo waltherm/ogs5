@@ -9,19 +9,19 @@ ENDIF (MSVC)
 
 # Collect build information such as revision/commit and timestamp
 IF (OGS_BUILD_INFO)
-    MESSAGE(STATUS "Collecting build information ")
-    IF(Git_FOUND)
+	MESSAGE(STATUS "Collecting build information ")
+	IF(Git_FOUND)
 		# Get git commit
 		EXECUTE_PROCESS(
-			COMMAND ${GIT_EXECUTABLE} "log" "--name-status" "HEAD^..HEAD"
+			COMMAND ${Git_EXECUTABLE} "log" "--name-status" "HEAD^..HEAD"
 			COMMAND ${GREP_TOOL_PATH} "-m" "1" "commit"
 			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 			OUTPUT_VARIABLE GIT_COMMIT_INFO
 			OUTPUT_STRIP_TRAILING_WHITESPACE
 		)
 		MESSAGE(STATUS "Git commit: ${GIT_COMMIT_INFO}")
-    ELSE()
-        MESSAGE(STATUS "Git does not found")
+	ELSE()
+		MESSAGE(STATUS "Git does not found")
 	ENDIF() # GIT_FOUND
 
 	FIND_PATH(HIDDEN_SVN_DIR entries ${CMAKE_SOURCE_DIR}/.svn)

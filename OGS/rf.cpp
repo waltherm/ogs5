@@ -29,6 +29,7 @@
  * OGS
  * */
 #include "Configure.h"
+#include "BuildInfo.h"
 
 #if defined(USE_MPI) || defined(USE_MPI_PARPROC) || \
     defined(USE_MPI_REGSOIL) || defined(USE_MPI_GEMS)
