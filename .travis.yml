@@ -32,3 +32,8 @@ script:
   - cmake $CMAKE_ARGS ..
   - make
 
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+
