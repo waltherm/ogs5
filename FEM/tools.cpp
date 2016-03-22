@@ -909,7 +909,7 @@ int FctCurves(char* data, int found, FILE* f)
 //					for(j = 0; j < nof; j++)
 //						values[j] = invals[ihet][j + 3];
 //				//DisplayMsg(" Het Val for element: "); DisplayLong(i);
-//DisplayMsg("
+// DisplayMsg("
 // with coordinates ");
 //				//DisplayDouble(x,0,0); DisplayMsg(", "); DisplayDouble(y,0,0);
 // DisplayMsg(", "); DisplayDouble(z,0,0); DisplayMsg("       found at: ");

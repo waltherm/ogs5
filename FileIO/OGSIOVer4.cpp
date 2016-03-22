@@ -102,7 +102,8 @@ std::string readPoints(std::istream& in, std::vector<Point*>* pnt_vec,
 				// end_pos) << ", id: " << id << "\n";
 				else
 					(*pnt_id_name_map)[line.substr(pos + 6)] = id;
-				//					std::cout << "name: " << line.substr (pos+6) <<
+				//					std::cout << "name: " << line.substr (pos+6)
+				//<<
 				//",
 				// id: " << id << "\n";
 			}
@@ -532,7 +533,7 @@ std::string readSurfaces(std::istream& in, std::vector<Surface*>& sfc_vec,
 	//		for (std::list<Polygon*>::const_iterator simple_polygon_it
 	//(simple_polygon_list.begin());
 	//			simple_polygon_it != simple_polygon_list.end();
-	//simple_polygon_it++)
+	// simple_polygon_it++)
 	//{
 	//			SimplePolygonTree *spt (new SimplePolygonTree
 	//(*simple_polygon_it));

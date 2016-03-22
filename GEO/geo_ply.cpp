@@ -892,7 +892,7 @@ void CGLPolyline::GetPointOrderByDistance()
 	// getName() << "\n";
 	//	for (size_t k(0); k<sbuffer.size(); k++) {
 	//		std::cout << "\tsbuffer[" << k << "]: " << sbuffer[k] << ",
-	//ibuffer["
+	// ibuffer["
 	//<< k << "]: " << ibuffer[k] <<"\n";
 	//	}
 

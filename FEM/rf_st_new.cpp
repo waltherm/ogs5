@@ -1143,7 +1143,7 @@ void CSourceTermGroup::Set(CRFProcess* m_pcs, const int ShiftInNodeVector,
 
 		//-- 23.02.3009. WW
 		if (st->getProcessDistributionType() == FiniteElement::DIRECT)
-		{   // NB For climate ST, the source terms (recharge in this case) will
+		{  // NB For climate ST, the source terms (recharge in this case) will
 			// also be assigned directly to surface nodes
 			st->DirectAssign(ShiftInNodeVector);
 			continue;

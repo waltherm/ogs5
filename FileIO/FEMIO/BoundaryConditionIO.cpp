@@ -54,8 +54,9 @@ namespace FileIO
 ////					setProcessPrimaryVariable(CONCENTRATION);
 ////				} else {
 ////					DisplayErrorMsg(
-////							"Error: In reading BC file, the input component names are not
-///found
+////							"Error: In reading BC file, the input component names are
+///not
+/// found
 /// in MCP file!!!");
 ////					exit(1);
 ////				}
@@ -80,8 +81,9 @@ namespace FileIO
 ////					setProcessPrimaryVariable(CONCENTRATION);
 ////				} else {
 ////					DisplayErrorMsg(
-////							"Error: In reading BC file, the input component names are not
-///found
+////							"Error: In reading BC file, the input component names are
+///not
+/// found
 /// in MCP file!!!");
 ////					exit(1);
 ////				}

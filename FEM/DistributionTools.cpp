@@ -78,7 +78,8 @@ void getNodesOnDistribution(DistributionData& dis_data,
 			//					std::string sfc_name;
 			//					geo_obj.getSurfaceVecObj(geo_project_name)->getNameOfElement(sfc,
 			// sfc_name);
-			//					std::string debug_fname("MeshNodesOld-BC-" + sfc_name
+			//					std::string debug_fname("MeshNodesOld-BC-" +
+			//sfc_name
 			//+
 			//".gli");
 			//					std::ofstream debug_out (debug_fname.c_str());

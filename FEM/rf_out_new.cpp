@@ -281,10 +281,10 @@ void OUTData(double time_current, int time_step_number, bool force_output)
 		{
 			//			m_out->matlab_delim = " ";
 			//			if (m_out->dat_type_name.compare("MATLAB") == 0) // JT,
-			//just
+			// just
 			// for commenting header for matlab
 			//			if (m_out->dat_type_name.compare("GNUPLOT") == 0) //
-			//JOD,
+			// JOD,
 			// just for commenting header for gnupl
 			//				m_out->matlab_delim = "%";
 
@@ -383,8 +383,9 @@ void OUTData(double time_current, int time_step_number, bool force_output)
 				case GEOLIB::SURFACE:  // profiles at surfaces
 					ScreenMessage("-> Data output: Surface profile\n");
 					//..............................................................
-					//				if (m_out->_dis_type_name.compare("AVERAGE") ==
-					//0)
+					//				if (m_out->_dis_type_name.compare("AVERAGE")
+					//==
+					// 0)
 					//{
 					if (m_out->getProcessDistributionType() ==
 					    FiniteElement::AVERAGE)
@@ -442,7 +443,8 @@ void OUTData(double time_current, int time_step_number, bool force_output)
 				//					OutputBySteps = false;
 				//				} else {
 				//					for (j = 0; j < no_times; j++) {
-				//						if ((time_current > m_out->time_vector[j])
+				//						if ((time_current >
+				//m_out->time_vector[j])
 				//||
 				// fabs(
 				//								time_current -
@@ -653,7 +655,7 @@ void OUTData(double time_current, int time_step_number, bool force_output)
 		// BG
 		if (m_out->getElementValueVector().size() > 0) m_out->CalcELEFluxes();
 	}  // OUT loop
-	//======================================================================
+	   //======================================================================
 }
 
 /**************************************************************************

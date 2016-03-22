@@ -1907,7 +1907,7 @@ double CFiniteElementStd::CalCoefMassPSGLOBAL(int dof_index)
 			val =
 			    poro * (Sw)*FluidProp->drhodP(variables) / FluidProp->Density();
 			//		cout << FluidProp->fluid_name << " Pressure: " << P << "
-			//Temp:
+			// Temp:
 			//" << ": drhodP: " << FluidProp->drhodP(P,T) << " density: " <<
 			// FluidProp->Density() << endl;
 			break;
@@ -2943,12 +2943,12 @@ void CFiniteElementStd::CalCoefLaplacePSGLOBAL(bool Gravity, int dof_index)
 				// TF:
 				// set, but never used
 				//				Snw = NodalVal_SatNW[WhichNode]; // TF: set, but
-				//never
+				// never
 				// used
 				//			}
 				//			else
 				//				Snw = interpolate(NodalVal_SatNW); // TF: set,
-				//but
+				// but
 				// never used
 
 				CMediumProperties* m_mmp = NULL;
@@ -6513,7 +6513,7 @@ void CFiniteElementStd::AssembleRHS(int dimension)
 		else
 			rho *= gravity_constant;
 		//			rho *= gravity_constant/FluidProp->Viscosity();		// This
-		//seems
+		// seems
 		// to divide viscosity two times. Thus, wrong.
 
 		fktG *= rho;
@@ -6548,7 +6548,7 @@ void CFiniteElementStd::AssembleRHS(int dimension)
 	{
 		m_pcs = pcs_vector[i];
 		//		if (m_pcs->pcs_type_name.find("GROUNDWATER_FLOW") !=
-		//string::npos)
+		// string::npos)
 		//// TF
 		if (m_pcs->getProcessType() == GROUNDWATER_FLOW)
 			IsGroundwaterIntheProcesses = 1;
@@ -11067,7 +11067,7 @@ void CFiniteElementStd::AssembleTHEquation(bool updateA, bool updateRHS)
 		const double gp_T1 = interpolate(NodalVal_T1);
 		//		if (myrank==2 && gp==0 && updateA)
 		//		ScreenMessage2("%d: p0=%.3e, p1=%.3e, T0=%.3e, T1=%.3e\n",
-		//Index,
+		// Index,
 		// gp_p0, gp_p1, gp_T0, gp_T1);
 		var[0] = gp_p1;
 		var[1] = gp_T1;
@@ -11355,7 +11355,8 @@ void CFiniteElementStd::AssembleTHEquation(bool updateA, bool updateRHS)
 #ifdef ENABLE_TP_MASS1
 					for (int k = 0; k < c_nnodes; k++)
 					{
-						//					(*StiffMatrix)(offset_T+i, offset_T+k)
+						//					(*StiffMatrix)(offset_T+i,
+						//offset_T+k)
 						//+=
 						// dt_inverse * fkt * drhocp_dT * NodalVal_T1[i] * NN *
 						// c_shapefct[k];

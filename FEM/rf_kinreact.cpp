@@ -2081,8 +2081,9 @@ void KBlobConfig(const GEOLIB::GEOObjects& geo_obj,
 				// 06/2010 TF - switch to new GEOLIB - REMOVE CANDIDATE
 				//				CGLPoint* m_geo_point = NULL; // make new GEO
 				// point
-				//				m_geo_point = GEOGetPointByName(s_geo_name);//Get
-				//GEO
+				//				m_geo_point =
+				//GEOGetPointByName(s_geo_name);//Get
+				// GEO
 				// point by name
 				//				if (m_geo_point)
 				//					l = m_msh->GetNODOnPNT(m_geo_point); // +

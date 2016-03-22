@@ -1655,7 +1655,7 @@ std::ios::pos_type CMediumProperties::Read(std::ifstream* mmp_file)
 					// DELETE THIS CHECK EVENTUALLY!
 					in >> capillary_pressure_values[2];
 					if (capillary_pressure_values[2] >= 0.0)
-					{   // Then a constant saturation value has been entered.
+					{  // Then a constant saturation value has been entered.
 						// This is model #2.
 						ScreenMessage(
 						    "WARNING in MMPRead. Capillary pressure model 1 "
@@ -2512,7 +2512,8 @@ double CMediumProperties::PermeabilitySaturationFunction(
 			//=
 			// maximum_saturation[phase]
 			//							- MKleinsteZahl;
-			//			if (sl < (residual_saturation[phase] + MKleinsteZahl)) sl
+			//			if (sl < (residual_saturation[phase] + MKleinsteZahl))
+			//sl
 			//=
 			// residual_saturation[phase]
 			//							+ MKleinsteZahl;
@@ -2525,7 +2526,7 @@ double CMediumProperties::PermeabilitySaturationFunction(
 			//			se = (sl - slr1) / (1 - slr);
 			//			//
 			//			kr = pow(1.0 - se, 1.0 / 3.0) * pow(1.0 - pow(se, 1.0 /
-			//m),
+			// m),
 			// 2.0 * m);
 			//			if (kr < minimum_relative_permeability)
 			//				kr = minimum_relative_permeability;
@@ -4358,7 +4359,7 @@ double* CMediumProperties::PermeabilityTensor(long index)
 	{  // only when permeability is isotropic
 		tensor[0] = permeability_tensor[0];
 		if (permeability_model == 2)
-		{   // here get the initial permeability values from material perperty
+		{  // here get the initial permeability values from material perperty
 			// class;
 			// NW commented out below to use permeability_hetero_value_id
 			// instead of evaluating every time
@@ -7355,12 +7356,14 @@ double CMediumProperties::NonlinearFlowFunction(long index, double* gp,
 	   double xgt[3],ygt[3],zgt[3];				//CMCD Global x,y,z coordinates
 	   of
 	   traingular element
-	   double xt[3],yt[3];							//CMCD Local x,y coordinates of
+	   double xt[3],yt[3];							//CMCD Local x,y coordinates
+	   of
 	   traingular
 	   element
 	   double pt_element_node[4], ht_element_node[4], zt_element_node[4]; //CMCD
 	   Pressure, depth head traingular element
-	   double dN_dx[3],dN_dy[3], area;				//CMCD Shape function derivates
+	   double dN_dx[3],dN_dy[3], area;				//CMCD Shape function
+	   derivates
 	   for
 	   triangles
 	   double isotropicgradient,porosity, Re, Lambda, apperture, hyd_radius,

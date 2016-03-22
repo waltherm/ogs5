@@ -136,7 +136,8 @@ std::ios::pos_type GetNextSubKeyword(std::ifstream* file, std::string* line,
 		                                      // Kommentarzeichens, j=-1 wenn es
 		                                      // keines gibt.
 		if (j < 0) j = (int)line_complete.length();
-		// if(j!=i) break;						 //Wenn das erste nicht-leerzeichen
+		// if(j!=i) break;						 //Wenn das erste
+		// nicht-leerzeichen
 		// ein
 		// Kommentarzeichen ist, zeile �berlesen. Sonst ist das eine Datenzeile
 		if (i != -1)
@@ -661,7 +662,7 @@ std::ios::pos_type CTimeDiscretization::Read(std::ifstream* tim_file)
 							line.clear();
 						}
 					}  // end of while loop adaptive
-					   // end of if "SELF_ADAPTIVE"
+					// end of if "SELF_ADAPTIVE"
 				}
 				else
 				{
@@ -669,7 +670,7 @@ std::ios::pos_type CTimeDiscretization::Read(std::ifstream* tim_file)
 					exit(1);
 				}
 			}  // end of while
-		// end of "TIME_CONTROL"
+		       // end of "TIME_CONTROL"
 		//....................................................................
 		/* //WW
 		   if(line_string.find("$SUBSTEPS")!=string::npos) { // subkeyword found
@@ -934,7 +935,7 @@ double CTimeDiscretization::CalcTimeStep(double current_time)
 	}
 	// Restrict by minimum
 	if (time_step_length < min_time_step)
-	{   // Default value of min_time_step is DBL_EPSILON, unless entered
+	{  // Default value of min_time_step is DBL_EPSILON, unless entered
 		// otherwise in the .tim read
 		time_step_length = min_time_step;
 	}
@@ -988,7 +989,7 @@ double CTimeDiscretization::CalcTimeStep(double current_time)
 				break;
 			}
 			else if (tval + time_step_length > critical_time[i])
-			{   // We can hit the critical time in 2 time steps, smooth the
+			{  // We can hit the critical time in 2 time steps, smooth the
 				// transition
 				if (next + time_step_length != critical_time[i])
 				{  // otherwise, match is already exact
@@ -1184,7 +1185,7 @@ double CTimeDiscretization::FirstTimeStepEstimate(void)
 				                                       // guess for testing
 				break;
 			//		case 'M': // kg44 Mass transport ---if steady state, time
-			//step
+			// step
 			// should be greater zero..
 			case FiniteElement::MASS_TRANSPORT:  // TF, if steady state, time
 				                                 // step should be greater
@@ -1865,7 +1866,7 @@ bool CTimeDiscretization::isDynamicTimeFailureSuggested(CRFProcess* m_pcs)
 		}
 #if !defined(USE_PETSC)  // && !defined(other parallel libs)//03.3012. WW
 		else
-		{   // Alright, this is annoying. Unfortunately we have to recalculate
+		{  // Alright, this is annoying. Unfortunately we have to recalculate
 			// the node errors.
 			m_pcs->CalcIterationNODError(method, false, false);
 			for (int ii = 0; ii < m_pcs->temporary_num_dof_errors; ii++)

@@ -398,14 +398,15 @@ ios::pos_type CInitialCondition::Read(std::ifstream* ic_file,
 			{
 				setGeoType(GEOLIB::SURFACE);
 				//				// TF 07/2010 - get the surface vector and get
-				//the
+				// the
 				// surface ID
 				//				if
 				//(!((geo_obj.getSurfaceVecObj(unique_name))->getElementIDByName(
 				//						geo_name, _geo_obj_idx))) {
 				//					std::cerr
-				//							<< "ERROR: CInitialCondition::Read: surface
-				//name
+				//							<< "ERROR: CInitialCondition::Read:
+				//surface
+				// name
 				// not found!"
 				//							<< "\n";
 				//					exit(1);

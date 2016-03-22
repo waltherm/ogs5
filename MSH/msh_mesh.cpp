@@ -681,7 +681,7 @@ void CFEMesh::ConstructGrid()
 			elem->GetLocalIndicesOfEdgeNodes(i, edgeIndex_loc0);
 			//			{
 			//				std::stringstream ss; for (size_t k = 0; k <
-			//nEdgeNodes;
+			// nEdgeNodes;
 			// k++) ss << e_nodes0[edgeIndex_loc0[k]]->GetIndex() << " ";
 			//				ScreenMessage2d("\t edge %d: %s\n", i,
 			// ss.str().c_str());
@@ -700,7 +700,7 @@ void CFEMesh::ConstructGrid()
 					size_t ee(work_node->getConnectedElementIDs()[ei]);
 					if (ee == e) continue;
 					//					ScreenMessage2d("\t -> check connecting
-					//element
+					// element
 					//%d: \n", i);
 					CElem* connElem(ele_vector[ee]);
 					const Math_Group::vec<long>& node_index_glb(
@@ -714,12 +714,14 @@ void CFEMesh::ConstructGrid()
 					{
 						connElem->GetLocalIndicesOfEdgeNodes(ii, edgeIndex_loc);
 						//						{
-						//							std::stringstream ss; for (size_t kk
+						//							std::stringstream ss; for (size_t
+						//kk
 						//=
 						// 0; kk < nEdgeNodes; kk++) ss <<
 						// node_index_glb[edgeIndex_loc[kk]] << " ";
-						//							ScreenMessage2d("\t edge %d: %s\n",
-						//ii,
+						//							ScreenMessage2d("\t edge %d:
+						//%s\n",
+						// ii,
 						// ss.str().c_str());
 						//						}
 
@@ -1482,7 +1484,7 @@ long CFEMesh::GetNODOnPNT(const GEOLIB::Point* const pnt) const
 	//		double llf[3], urb[3];
 	//		_mesh_grid->getGridCornerPoints(pnt->getData(), llf, urb);
 	//		std::cout << "local bbx: " << llf[0] << " " << llf[1] << " " <<
-	//llf[2]
+	// llf[2]
 	//<< " x " << urb[0] << " " << urb[1] << " " << urb[2] << "\n";
 	//	}
 	//

@@ -1026,7 +1026,7 @@ void COutput::WriteTECNodeData(fstream& tec_file)
 					{
 						if ((m_pcs->type == 14) &&
 						    (_nod_value_vector[k] == "HEAD"))
-						{   // HEAD output for RICHARDS_FLOW (unconfined GW)
+						{  // HEAD output for RICHARDS_FLOW (unconfined GW)
 							// 5.3.07 JOD
 							double rhow;
 							double dens_arg[3];
@@ -1803,7 +1803,7 @@ void COutput::NODWritePNTDataTEC(double time_current, int time_step_number)
 			else
 				tec_file << " ZONE T=\"POINT=" << geo_name << "\""
 				         << "\n";  //, I=" << anz_zeitschritte << ", J=1, K=1,
-			// F=POINT" << "\n";
+			                       // F=POINT" << "\n";
 		}
 	}
 
@@ -1856,7 +1856,8 @@ void COutput::NODWritePNTDataTEC(double time_current, int time_step_number)
 			for (size_t l = 0; l < pcs_vector.size(); l++)
 			{
 				m_pcs = pcs_vector[l];
-				//				if (m_pcs->pcs_type_name.compare("MASS_TRANSPORT")
+				//				if
+				//(m_pcs->pcs_type_name.compare("MASS_TRANSPORT")
 				//==
 				// 0) { TF
 				if (m_pcs->getProcessType() == FiniteElement::MASS_TRANSPORT)
@@ -1868,7 +1869,7 @@ void COutput::NODWritePNTDataTEC(double time_current, int time_step_number)
 						        nod_value_name) == 0)
 						{
 							//							m_pcs_out =
-							//PCSGet(pcs_type_name,
+							// PCSGet(pcs_type_name,
 							// nod_value_name);
 							m_pcs_out = PCSGet(FiniteElement::MASS_TRANSPORT,
 							                   nod_value_name);
@@ -3924,10 +3925,11 @@ void COutput::CalculateThroughflow(CFEMesh* msh, vector<long>& nodes_on_sfc,
 			// m_msh->nod_vector[elem->GetNode(nodesFace[0])->GetIndex()]->getData()[2];
 			//				k++;
 			//			} while (fabs(v1[0] - v2[0]) < 1.e-10 && fabs(v1[1] -
-			//v2[1])
+			// v2[1])
 			//< 1.e-10 && fabs(v1[2]
-			//							- v2[2]) < 1.e-10); // 3 points on surface are
-			//not
+			//							- v2[2]) < 1.e-10); // 3 points on surface
+			//are
+			// not
 			// on 1 line
 			//
 			//

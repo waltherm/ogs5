@@ -509,7 +509,7 @@ void REACT::InitREACT0()
 	{
 		pcs = pcs_vector[j];
 		//		if (pcs->pcs_type_name.compare("MASS_TRANSPORT") == 0) { // if
-		//it
+		// it
 		// is a mass transport process
 		if (pcs->getProcessType() == FiniteElement::MASS_TRANSPORT)
 		{
@@ -1438,7 +1438,8 @@ int REACT::ReadInputPhreeqc(long index, FILE* fpqc, FILE* Fphinp)
 											//                           val_in[i][index]);
 											FilePrintDouble(f,
 											                val_in[i][index]);
-											// MX						   FilePrintString(f,
+											// MX
+											// FilePrintString(f,
 											// "
 											// charge ");
 
@@ -1972,7 +1973,8 @@ int REACT::WriteInputPhreeqc(long index,
 						//                if(speciesname.compare("pH"))
 						*out_file << speciesname << "       " << dval
 						          << "     # comp " << endl;
-						//					if(index <2) cout << speciesname << " "
+						//					if(index <2) cout << speciesname << "
+						//"
 						//<<
 						// dval << endl;
 						//                else
@@ -2031,7 +2033,8 @@ int REACT::WriteInputPhreeqc(long index,
 			else
 				*out_file << "pH"
 				          << "       " << dval << "       # comp " << endl;
-			// SB to do screen output				if(index <2) cout << "  pH: " <<
+			// SB to do screen output				if(index <2) cout << "  pH: "
+			// <<
 			// dval
 			// << ", " << pcs_vector[pqc_process[count]]->pcs_number << endl;
 			// write pe
@@ -2040,7 +2043,8 @@ int REACT::WriteInputPhreeqc(long index,
 			    index, pqc_index[n1 + 2]);
 			*out_file << "pe"
 			          << "       " << dval << "       # comp " << endl;
-			// SB to do screen output		if(index <2)  cout << "  pe: " << dval
+			// SB to do screen output		if(index <2)  cout << "  pe: " <<
+			// dval
 			// <<
 			// ", " << pcs_vector[pqc_process[count]]->pcs_number << endl;
 
@@ -2589,7 +2593,7 @@ int REACT::ReadOutputPhreeqcNew(void)
 					pcs_vector[pqc_process[j]]->SetNodeValue(
 					    index, pqc_index[j] + dix, dval);
 			//					if(index <2) cout << " Read aqu. for " <<
-			//pqc_names[j]
+			// pqc_names[j]
 			//<< " " << dval << endl;
 			/* Read pH and pe */
 			if (ein >> dval)  // read pH
@@ -2634,7 +2638,7 @@ int REACT::ReadOutputPhreeqcNew(void)
 					pcs_vector[pqc_process[j]]->SetNodeValue(
 					    index, pqc_index[j] + dix, dval);
 			//				if(index <2)  cout << " Read equi. for " <<
-			//pqc_names[j]
+			// pqc_names[j]
 			//<< " " << dval << endl;
 			/*--------------------Read the concentration of all ion exchangers
 			 * -------*/
@@ -2830,7 +2834,7 @@ void REACT::GetTransportResults(void)
 	{
 		pcs = pcs_vector[j];
 		//		if (pcs->pcs_type_name.compare("MASS_TRANSPORT") == 0) { // if
-		//it
+		// it
 		// is a mass transport process
 		if (pcs->getProcessType() == FiniteElement::MASS_TRANSPORT)
 		{
@@ -3112,7 +3116,7 @@ void REACT::GetTransportResults2Element()
 	{
 		pcs = pcs_vector[j];
 		//		if (pcs->pcs_type_name.compare("MASS_TRANSPORT") == 0) { // if
-		//it
+		// it
 		// is a mass transport process
 		// if it is a mass transport process
 		if (pcs->getProcessType() == FiniteElement::MASS_TRANSPORT)

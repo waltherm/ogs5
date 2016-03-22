@@ -5923,7 +5923,7 @@ void CRFProcess::DDCAssembleGlobalMatrix()
 #endif
 }
 #endif  //#if !defined(USE_PETSC) // && !defined(other parallel libs)//03.3012.
-// WW
+        // WW
 
 /*************************************************************************
    ROCKFLOW - Function:
@@ -6187,7 +6187,7 @@ void CRFProcess::SetSTWaterGemSubDomain(int myrank)
 }
 
 #endif  //#if !defined(USE_PETSC) // && !defined(other parallel libs)//03.3012.
-// WW
+        // WW
 /**************************************************************************
    FEMLib-Method: CRFProcess::IncorporateBoundaryConditions
    Task: set PCS boundary conditions
@@ -6687,7 +6687,7 @@ void CRFProcess::IncorporateBoundaryConditions(const int rank, bool updateA,
 				//					for (unsigned j=0; j<dof_node_id[i].size();
 				// j++)
 				//						ScreenMessage2("-> bc: dof=%d, node
-				//id=%d,
+				// id=%d,
 				// val=%g\n", i, dof_node_id[i][j], dof_node_value[i][j]);
 				//					VecView(eqs_new->vec_subRHS[i],
 				// PETSC_VIEWER_STDOUT_WORLD);
@@ -7796,7 +7796,7 @@ void CRFProcess::IncorporateSourceTerms(const int rank)
 				gindex = stgem_node_value_in_dom[i];  // contains indexes to
 				                                      // water-st_vec
 				//				cout << " gindex " << gindex << " i " << i <<
-				//endl
+				// endl
 				//;
 				// contains index to node
 				glocalindex = stgem_local_index_in_dom[i];
@@ -9438,7 +9438,7 @@ double CRFProcess::CalcIterationNODError(FiniteElement::ErrorMethod method,
 		pcs_unknowns_norm = unknowns_norm;
 	}
 	if (!nls_error && !cpl_error)
-	{   // Then this routine called from somewhere else to get the error (i.e.
+	{  // Then this routine called from somewhere else to get the error (i.e.
 		// time control). Store it in a temporary vector for access.
 		for (ii = 0; ii < num_dof_errors; ii++)
 		{
@@ -9587,7 +9587,8 @@ double CRFProcess::ExecuteNonLinear(int loop_process_number, bool print_pcs)
 						percent_difference =
 						    100 *
 						    ((nl_itr_err_pre - nl_itr_err) / nl_itr_err_pre);
-					//						conv_rate = std::max(conv_rate, nl_itr_err
+					//						conv_rate = std::max(conv_rate,
+					//nl_itr_err
 					///
 					// nl_itr_err_pre);
 					//						if (conv_rate)
