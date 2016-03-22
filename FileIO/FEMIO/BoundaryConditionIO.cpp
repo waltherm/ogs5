@@ -20,7 +20,7 @@
 
 namespace FileIO
 {
-//CBoundaryCondition* BoundaryConditionIO::read(std::istream& in_str,
+// CBoundaryCondition* BoundaryConditionIO::read(std::istream& in_str,
 //		GEOLIB::GEOObjects const& geo_obj, std::string const& unique_fname)
 //{
 //	ProcessType pcs_type (INVALID_PROCESS);
@@ -59,7 +59,9 @@ namespace FileIO
 ////					setProcessPrimaryVariable(CONCENTRATION);
 ////				} else {
 ////					DisplayErrorMsg(
-////							"Error: In reading BC file, the input component names are not found in MCP file!!!");
+////							"Error: In reading BC file, the input component names are not
+///found
+/// in MCP file!!!");
 ////					exit(1);
 ////				}
 ////			} else {
@@ -69,7 +71,8 @@ namespace FileIO
 ////			in.clear();
 ////		}
 //
-////		// HS, this is new. later on we should stick to COMP_NAME, PRIMARY_VARIABLE support will be removed.
+////		// HS, this is new. later on we should stick to COMP_NAME,
+/// PRIMARY_VARIABLE support will be removed.
 ////		if (line_string.find("$COMP_NAME") != std::string::npos) {
 ////			in.str(GetLineFromFile1(in_str));
 ////			std::string tmp;
@@ -82,7 +85,9 @@ namespace FileIO
 ////					setProcessPrimaryVariable(CONCENTRATION);
 ////				} else {
 ////					DisplayErrorMsg(
-////							"Error: In reading BC file, the input component names are not found in MCP file!!!");
+////							"Error: In reading BC file, the input component names are not
+///found
+/// in MCP file!!!");
 ////					exit(1);
 ////				}
 ////			}
@@ -91,7 +96,8 @@ namespace FileIO
 //
 //		//subkeyword found
 //		if (line_string.find("$GEO_TYPE") != std::string::npos) {
-//			GeoIO::readGeoInfo (geo_info, in_str, geo_name, geo_obj, unique_fname);
+//			GeoIO::readGeoInfo (geo_info, in_str, geo_name, geo_obj,
+// unique_fname);
 //		}
 //
 ////		//PCH
@@ -100,7 +106,8 @@ namespace FileIO
 ////			in >> line_string; //sub_line
 ////			_periodic = false; // JOD
 ////
-////			// Soure terms are assign to element nodes directly. 23.02.2009. WW
+////			// Soure terms are assign to element nodes directly. 23.02.2009.
+/// WW
 ////			if (line_string.find("DIRECT") != std::string::npos) {
 ////				this->setProcessDistributionType(FiniteElement::DIRECT);
 ////				in >> fname;
@@ -205,27 +212,31 @@ namespace FileIO
 //	return NULL;
 //}
 
-void BoundaryConditionIO::write(std::ostream& out,
-                                CBoundaryCondition const& bc)
+void BoundaryConditionIO::write(std::ostream& out, CBoundaryCondition const& bc)
 {
 	// keyword
-	out << "#BOUNDARY_CONDITION" << "\n";
-
-	// process and primary variable
-	out << "\t$PCS_TYPE" << "\n";
-	out << "\t\t" << convertProcessTypeToString(bc.getProcessType())
+	out << "#BOUNDARY_CONDITION"
 	    << "\n";
 
-	out << "\t$PRIMARY_VARIABLE" << "\n";
-	out << "\t\t" << convertPrimaryVariableToString(
-	        bc.getProcessPrimaryVariable()) << "\n";
+	// process and primary variable
+	out << "\t$PCS_TYPE"
+	    << "\n";
+	out << "\t\t" << convertProcessTypeToString(bc.getProcessType()) << "\n";
+
+	out << "\t$PRIMARY_VARIABLE"
+	    << "\n";
+	out << "\t\t"
+	    << convertPrimaryVariableToString(bc.getProcessPrimaryVariable())
+	    << "\n";
 
 	// geometry
-	out << "\t$GEO_TYPE" << "\n";
+	out << "\t$GEO_TYPE"
+	    << "\n";
 	out << "\t" << bc.getGeoTypeAsString() << " " << bc.geo_name << "\n";
 
 	// distribution type
-	out << "\t$DIS_TYPE" << "\n";
+	out << "\t$DIS_TYPE"
+	    << "\n";
 	out << "\t\t" << convertDisTypeToString(bc.getProcessDistributionType());
 	if (bc.getProcessDistributionType() == FiniteElement::CONSTANT)
 		out << "\t\t" << bc.geo_node_value << "\n";
@@ -242,8 +253,9 @@ void BoundaryConditionIO::write(std::ostream& out,
 	// function name
 	if (!bc.fct_name.empty())
 	{
-		out << "\t$FCT_TYPE" << "\n";
+		out << "\t$FCT_TYPE"
+		    << "\n";
 		out << "\t\t" << bc.fct_name << "\n";
 	}
 }
-} // end namespace FileIO
+}  // end namespace FileIO

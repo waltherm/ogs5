@@ -27,6 +27,6 @@ public:
 	GeoObject() {}
 	virtual ~GeoObject() {}
 };
-} // end namespace GEOLIB
+}  // end namespace GEOLIB
 
 #endif /* GEOOBJECT_H_ */

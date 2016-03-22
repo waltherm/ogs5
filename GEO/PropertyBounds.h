@@ -16,8 +16,10 @@
 class PropertyBounds
 {
 public:
-	PropertyBounds(std::string pname, double minVal,
-	               double maxVal ) :  _name(pname), _minVal(minVal), _maxVal(maxVal) {}
+	PropertyBounds(std::string pname, double minVal, double maxVal)
+	    : _name(pname), _minVal(minVal), _maxVal(maxVal)
+	{
+	}
 
 	std::string getName() const { return _name; }
 	double getMin() const { return _minVal; }
@@ -32,4 +34,4 @@ private:
 	double _maxVal;
 };
 
-#endif //PROPERTYBOUNDS_H
+#endif  // PROPERTYBOUNDS_H

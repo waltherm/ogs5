@@ -16,8 +16,8 @@
 class CGLLine
 {
 private:
-	bool marked; // For mesh
-	friend class Surface; //WW
+	bool marked;           // For mesh
+	friend class Surface;  // WW
 	// kg44 needed for domain decomposition with PETSC
 	bool for_ic;
 
@@ -28,7 +28,7 @@ public:
 	CGLPoint* m_point2;
 	std::string name;
 	double value;
-	long mesh_index, gli_line_id; // mesh_index: unique index for mesh
+	long mesh_index, gli_line_id;  // mesh_index: unique index for mesh
 	long point1, point2;
 	int orientation;
 	double epsilon;
@@ -36,17 +36,17 @@ public:
 	long no_msh_nodes;
 	int mat_group;
 	int display_mode;
-	//MSH
+	// MSH
 	std::vector<double*> nodes_coor_vector;
 	// kg44 needed for domain decomposition with PETSC
-	void SetConditionTypeIC(const bool value) { for_ic=value;} ;
-	bool GetConditionTypeIC() const {return for_ic;} ;
-	//Method
+	void SetConditionTypeIC(const bool value) { for_ic = value; };
+	bool GetConditionTypeIC() const { return for_ic; };
+	// Method
 	CGLLine* GEOGetLine(long);
 	CGLLine* CheckLineOutPut();
 	CGLLine* Exists();
 	// void SetRFIPointsClose();//MSH + geomathlib
-	//void CreateMSHLines(void);//MSH
+	// void CreateMSHLines(void);//MSH
 };
 
 extern std::vector<CGLLine*> GEOLIB_GetGLILines_Vector(void);

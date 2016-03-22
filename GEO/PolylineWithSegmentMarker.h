@@ -15,9 +15,10 @@
 
 #include "Polyline.h"
 
-namespace GEOLIB {
-
-class PolylineWithSegmentMarker: public GEOLIB::Polyline {
+namespace GEOLIB
+{
+class PolylineWithSegmentMarker : public GEOLIB::Polyline
+{
 public:
 	PolylineWithSegmentMarker(GEOLIB::Polyline const& polyline);
 	virtual ~PolylineWithSegmentMarker();
@@ -42,7 +43,8 @@ public:
 	virtual void addPoint(size_t pnt_id);
 
 	/**
-	 * Method calls the @see Polyline::insertPoint() and initializes the inserted line segment with the same
+	 * Method calls the @see Polyline::insertPoint() and initializes the
+	 * inserted line segment with the same
 	 * value the previous line segment had.
 	 * @param pos @see Polyline::insertPoint()
 	 * @param pnt_id @see Polyline::insertPoint()
@@ -52,7 +54,6 @@ public:
 private:
 	std::vector<bool> _marker;
 };
-
 }
 
 #endif /* POLYLINEWITHSEGMENTMARKER_H_ */

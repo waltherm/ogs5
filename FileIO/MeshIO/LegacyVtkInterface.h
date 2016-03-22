@@ -43,27 +43,32 @@ public:
 	                   ProcessInfo* processInfo);
 	virtual ~LegacyVtkInterface();
 
-	void WriteDataVTK(int number, double simulation_time, std::string baseFilename) const;
+	void WriteDataVTK(int number,
+	                  double simulation_time,
+	                  std::string baseFilename) const;
 #if defined(USE_PETSC)
-	void WriteDataVTKPETSC(int number, double simulation_time, std::string baseFilename) const;
+	void WriteDataVTKPETSC(int number,
+	                       double simulation_time,
+	                       std::string baseFilename) const;
 #endif
 	double RoundDoubleVTK(double MyZahl);
+
 protected:
 	void WriteVTKHeader(std::fstream&, int, double) const;
 	void WriteVTKPointData(std::fstream&) const;
 	void WriteVTKCellData(std::fstream&) const;
 	void WriteVTKDataArrays(std::fstream&) const;
-	void WriteELEVelocity(std::fstream &vtk_file) const;
+	void WriteELEVelocity(std::fstream& vtk_file) const;
 #if defined(USE_PETSC)
 	void WriteVTKPointDataPETSC(PetscViewer) const;
 	void WriteVTKCellDataPETSC(PetscViewer) const;
 	void WriteVTKDataArraysPETSC(PetscViewer) const;
 #endif
 
-    void printScalarArray(std::string arrayName, std::fstream &vtk_file) const;
+	void printScalarArray(std::string arrayName, std::fstream& vtk_file) const;
 
 	// Copied from COutput
-	CRFProcess* GetPCS_ELE(const std::string &var_name) const;
+	CRFProcess* GetPCS_ELE(const std::string& var_name) const;
 
 	MeshLib::CFEMesh* _mesh;
 	std::string _processType;
@@ -74,4 +79,4 @@ protected:
 	ProcessInfo* _processInfo;
 };
 
-#endif // LEGACYVTKINTERFACE_H
+#endif  // LEGACYVTKINTERFACE_H

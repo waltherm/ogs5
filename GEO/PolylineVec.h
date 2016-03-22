@@ -26,6 +26,6 @@ namespace GEOLIB
  * */
 
 typedef TemplateVec<Polyline> PolylineVec;
-} // end namespace
+}  // end namespace
 
 #endif /* POLYLINEVEC_H_ */

@@ -33,7 +33,7 @@
    01/2010     NW         Automatic centering of the version information
  */
 /**************************************************************************/
-void DisplayStartMsg ( void )
+void DisplayStartMsg(void)
 {
 	int i, pad_len;
 	char buf[128];
@@ -54,9 +54,10 @@ void DisplayStartMsg ( void )
 	printf("          ##  German Research Centre for Geosciences (GFZ) ##\n");
 	printf("          ##                                               ##\n");
 
-	//align the version information to center of the line
+	// align the version information to center of the line
 	printf("          ## ");
-	sprintf(buf, "Version %s  Date %s", BuildInfo::OGS_VERSION.c_str(), BuildInfo::OGS_DATE.c_str());
+	sprintf(buf, "Version %s  Date %s", BuildInfo::OGS_VERSION.c_str(),
+	        BuildInfo::OGS_DATE.c_str());
 	pad_len = 45 - (int)strlen(buf);
 	for (i = 0; i < pad_len / 2; i++)
 		printf(" ");
@@ -86,7 +87,7 @@ void DisplayStartMsg ( void )
    03/1994     MSR        Erste Version
  */
 /**************************************************************************/
-void DisplayEndMsg ( void )
+void DisplayEndMsg(void)
 {
 	printf("\n          Programm beendet!\n\n\n");
 }

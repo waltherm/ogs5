@@ -21,18 +21,19 @@ namespace GEOLIB
  * \ingroup GEOLIB
  */
 
-enum GEOTYPE {
+enum GEOTYPE
+{
 	INVALID = 0,
-	POINT, //!< POINT
-	POLYLINE, //!< POLYLINE
-	SURFACE, //!< SURFACE
-	VOLUME, //!< VOLUME
-	GEODOMAIN //!< GEODOMAIN
+	POINT,     //!< POINT
+	POLYLINE,  //!< POLYLINE
+	SURFACE,   //!< SURFACE
+	VOLUME,    //!< VOLUME
+	GEODOMAIN  //!< GEODOMAIN
 };
 
-GEOTYPE convertGeoType (const std::string& geo_type_str);
+GEOTYPE convertGeoType(const std::string& geo_type_str);
 
-std::string convertGeoTypeToString (GEOTYPE geo_type);
-} // end namespace GEOLIB
+std::string convertGeoTypeToString(GEOTYPE geo_type);
+}  // end namespace GEOLIB
 
 #endif /* GEOTYPE_H_ */

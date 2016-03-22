@@ -21,7 +21,7 @@ namespace MathLib
 class CubicSpline
 {
 public:
-	CubicSpline(const std::vector<double>&s, const std::vector<double>&val);
+	CubicSpline(const std::vector<double>& s, const std::vector<double>& val);
 	~CubicSpline();
 	double interpolation(double x) const;
 
@@ -34,6 +34,6 @@ private:
 	std::vector<double> yy;
 	void computeCoefficents();
 };
-} // end namespace MathLib
+}  // end namespace MathLib
 
 #endif /* CUBICSPLINE_H_ */

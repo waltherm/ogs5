@@ -47,16 +47,18 @@ public:
 	 * @param geo_info object, in which the information is stored
 	 * @param in_str the input stream, containing the geometric information
 	 * @param geo_name the name of the geometric object (needed writing)
-	 * @param geo_obj an instance of class GEOObjects (manager of geometric information)
-	 * @param unique_geo_name identifier of the geometric data within the geometric manager GEOObjects
+	 * @param geo_obj an instance of class GEOObjects (manager of geometric
+	 *information)
+	 * @param unique_geo_name identifier of the geometric data within the
+	 *geometric manager GEOObjects
 	 * @return false if an error occured, else true
 	 */
-	static bool readGeoInfo (GeoInfo* geo_info,
-	                         std::istream& in_str,
-	                         std::string& geo_name,
-	                         const GEOLIB::GEOObjects& geo_obj,
-	                         const std::string& unique_geo_name);
+	static bool readGeoInfo(GeoInfo* geo_info,
+	                        std::istream& in_str,
+	                        std::string& geo_name,
+	                        const GEOLIB::GEOObjects& geo_obj,
+	                        const std::string& unique_geo_name);
 };
-} // ned namespace FileIO
+}  // ned namespace FileIO
 
 #endif /* GEOIO_H_ */

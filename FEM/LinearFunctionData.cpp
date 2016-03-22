@@ -19,8 +19,8 @@
 // TF do this only in cpp files !!!
 using namespace std;
 
-LinearFunctionData::LinearFunctionData(ifstream &ins, int num_var) :
-	_ndata(0), _subdom_index(NULL), _a0(NULL), _b0(NULL), _c0(NULL), _d0(NULL)
+LinearFunctionData::LinearFunctionData(ifstream& ins, int num_var)
+    : _ndata(0), _subdom_index(NULL), _a0(NULL), _b0(NULL), _c0(NULL), _d0(NULL)
 {
 	bool is_sub_domain = false;
 	if (num_var > 0)
@@ -40,8 +40,7 @@ LinearFunctionData::LinearFunctionData(ifstream &ins, int num_var) :
 	_c0 = new double[_ndata];
 	_d0 = new double[_ndata];
 
-	if (is_sub_domain)
-		_subdom_index = new size_t[_ndata];
+	if (is_sub_domain) _subdom_index = new size_t[_ndata];
 
 	for (size_t i = 0; i < _ndata; i++)
 	{
@@ -60,39 +59,38 @@ LinearFunctionData::LinearFunctionData(ifstream &ins, int num_var) :
 		else
 			ins >> str_buff >> ws;
 
-		pch = strtok(const_cast<char*> (str_buff.c_str()), seps);
+		pch = strtok(const_cast<char*>(str_buff.c_str()), seps);
 		buff << pch;
 		buff >> _a0[i];
 		buff.clear();
 		while (pch != NULL)
 		{
 			pch = strtok(NULL, seps);
-			if (pch == NULL)
-				break;
+			if (pch == NULL) break;
 			string token = pch;
 			tokens.push_back(token);
 		}
 		for (size_t k = 0; k < tokens.size(); k++)
 		{
-			pch = strtok(const_cast<char*> (tokens[k].c_str()), seps1);
+			pch = strtok(const_cast<char*>(tokens[k].c_str()), seps1);
 			buff << pch;
 			buff >> f_buff;
 			buff.clear();
 			pch = strtok(NULL, seps1);
 			switch (pch[0])
 			{
-			case 'x':
-				_b0[i] = f_buff;
-				break;
-			case 'y':
-				_c0[i] = f_buff;
-				break;
-			case 'z':
-				_d0[i] = f_buff;
-				break;
+				case 'x':
+					_b0[i] = f_buff;
+					break;
+				case 'y':
+					_c0[i] = f_buff;
+					break;
+				case 'z':
+					_d0[i] = f_buff;
+					break;
 			}
 		}
-//		tokens.clear();
+		//		tokens.clear();
 	}
 }
 /*!
@@ -106,8 +104,7 @@ LinearFunctionData::~LinearFunctionData()
 	delete[] _b0;
 	delete[] _c0;
 	delete[] _d0;
-	if (_subdom_index)
-		delete[] _subdom_index;
+	if (_subdom_index) delete[] _subdom_index;
 
 	_subdom_index = NULL;
 	_a0 = _b0 = _c0 = _d0 = NULL;
@@ -118,7 +115,8 @@ LinearFunctionData::~LinearFunctionData()
 
    WW 24.08.2011
  */
-double LinearFunctionData::getValue(size_t dom_i, double x, double y, double z) const
+double LinearFunctionData::getValue(size_t dom_i, double x, double y,
+                                    double z) const
 {
 	for (size_t i = 0; i < _ndata; i++)
 		if (dom_i == _subdom_index[i])

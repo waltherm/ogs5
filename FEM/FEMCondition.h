@@ -24,7 +24,7 @@ class CBoundaryCondition;
 class CInitialCondition;
 class CSourceTerm;
 
-//class GEOObjects;
+// class GEOObjects;
 class GridAdapter;
 #include "GEOObjects.h"
 
@@ -35,21 +35,24 @@ class FEMCondition : public ProcessInfo, public GeoInfo, public DistributionInfo
 {
 public:
 	/// Specifier for types of FEM Conditions
-	enum CondType {
-		UNSPECIFIED        = 0,
+	enum CondType
+	{
+		UNSPECIFIED = 0,
 		BOUNDARY_CONDITION = 1,
-		INITIAL_CONDITION  = 2,
-		SOURCE_TERM        = 3
+		INITIAL_CONDITION = 2,
+		SOURCE_TERM = 3
 	};
 
-	FEMCondition(const std::string &geometry_name, CondType t = UNSPECIFIED);
-	FEMCondition(const std::string &geometry_name,
-					FiniteElement::ProcessType pt = FiniteElement::INVALID_PROCESS,
-					FiniteElement::PrimaryVariable pv =	FiniteElement::INVALID_PV,
-					GEOLIB::GEOTYPE gt = GEOLIB::INVALID,
-					const std::string &gn = "[unspecified]",
-					FiniteElement::DistributionType dt = FiniteElement::INVALID_DIS_TYPE, CondType ct = UNSPECIFIED);
-	FEMCondition(const FEMCondition &cond, CondType t);
+	FEMCondition(const std::string& geometry_name, CondType t = UNSPECIFIED);
+	FEMCondition(
+	    const std::string& geometry_name,
+	    FiniteElement::ProcessType pt = FiniteElement::INVALID_PROCESS,
+	    FiniteElement::PrimaryVariable pv = FiniteElement::INVALID_PV,
+	    GEOLIB::GEOTYPE gt = GEOLIB::INVALID,
+	    const std::string& gn = "[unspecified]",
+	    FiniteElement::DistributionType dt = FiniteElement::INVALID_DIS_TYPE,
+	    CondType ct = UNSPECIFIED);
+	FEMCondition(const FEMCondition& cond, CondType t);
 
 	~FEMCondition() {}
 
@@ -62,25 +65,37 @@ public:
 	/// Returns the value(s) for the distribution
 	const std::vector<double> getDisValues() const { return _disValues; }
 
-	/// Returns the name of the geo-object the condition is assigned to. This object is part of the associated geometry.
+	/// Returns the name of the geo-object the condition is assigned to. This
+	/// object is part of the associated geometry.
 	const std::string& getGeoName() const { return _geoName; }
 
 	/// Returns the name of the associated geometry.
-	const std::string& getAssociatedGeometryName() const { return _associated_geometry; }
+	const std::string& getAssociatedGeometryName() const
+	{
+		return _associated_geometry;
+	}
 
-	/// Convenience method for setting a single value specifying the distribution.
-	void setConstantDisValue(double disValue) {_disValues.clear(); _disValues.push_back(disValue); }
+	/// Convenience method for setting a single value specifying the
+	/// distribution.
+	void setConstantDisValue(double disValue)
+	{
+		_disValues.clear();
+		_disValues.push_back(disValue);
+	}
 
 	/// Sets a vector of values specifying the distribution.
-	void setDisValues(const std::vector<size_t> &disNodes, const std::vector<double> &disValues)
+	void setDisValues(const std::vector<size_t>& disNodes,
+	                  const std::vector<double>& disValues)
 	{
 		_disNodes = disNodes;
 		_disValues = disValues;
 	}
 
 	/// Sets a vector of values specifying the distribution.
-	/// The first value specifies the point id, the second the value for that point.
-	void setDisValues(const std::vector< std::pair<size_t, double> > &dis_values);
+	/// The first value specifies the point id, the second the value for that
+	/// point.
+	void setDisValues(
+	    const std::vector<std::pair<size_t, double> >& dis_values);
 
 	/// Removes all distribution values
 	void clearDisValues() { _disValues.resize(0); };
@@ -99,4 +114,4 @@ protected:
 	std::string _associated_geometry;
 };
 
-#endif //FEMCONDITION_H
+#endif  // FEMCONDITION_H

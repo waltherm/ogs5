@@ -17,17 +17,17 @@
 
 namespace FileIO
 {
-
 /// @brief Base class which enables writing an object to string, stringstream
 /// or file. Also formatting (precision, scientific notation of decimal values)
 /// can be set.
 ///
-/// When subclassing you only need to implement void write(std::ostream& stream).
+/// When subclassing you only need to implement void write(std::ostream&
+/// stream).
 class Writer
 {
 public:
 	Writer();
-	virtual ~Writer() {};
+	virtual ~Writer(){};
 
 	/// @brief Writes the object to a string.
 	std::string writeToString();
@@ -50,9 +50,8 @@ protected:
 	std::stringstream _out;
 
 private:
-
 };
 
-} // namespace FileIO
+}  // namespace FileIO
 
-#endif // WRITER_H
+#endif  // WRITER_H

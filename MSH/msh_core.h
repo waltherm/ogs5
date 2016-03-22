@@ -43,10 +43,7 @@ public:
 	// Get members
 	size_t GetIndex() const { return index; }
 
-	bool GetMark() const
-	{
-		return mark;
-	}
+	bool GetMark() const { return mark; }
 
 	bool GetOrder() const { return quadratic; }
 
@@ -59,43 +56,25 @@ public:
 	}
 
 	// Set members
-	void SetBoundaryType(char type)
-	{
-		boundary_type = type;
-	}
+	void SetBoundaryType(char type) { boundary_type = type; }
 
-	char GetBoundaryType() const
-	{
-		return boundary_type;
-	}                                         // 18.02.2009. WW
+	char GetBoundaryType() const { return boundary_type; }  // 18.02.2009. WW
 
-	void SetOrder(bool order)
-	{
-		quadratic = order;
-	}
+	void SetOrder(bool order) { quadratic = order; }
 
-	void SetMark(bool state)
-	{
-		mark = state;
-	}
+	void SetMark(bool state) { mark = state; }
 
-	void SetIndex(size_t lvalue)
-	{
-		index = lvalue;
-	}                                         //OK
+	void SetIndex(size_t lvalue) { index = lvalue; }  // OK
 
 	// Output
-	virtual void Write(std::ostream& os = std::cout) const
-	{
-		os << "\n";
-	}
+	virtual void Write(std::ostream& os = std::cout) const { os << "\n"; }
 
 protected:
 	// Properties
 	size_t index;
 	char boundary_type;
-	bool mark;                                // e.g. marked to be refined or active
-	bool quadratic;                           // higher order
+	bool mark;       // e.g. marked to be refined or active
+	bool quadratic;  // higher order
 };
-}                                                 // namespace MeshLib
+}  // namespace MeshLib
 #endif

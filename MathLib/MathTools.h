@@ -26,20 +26,20 @@ namespace MathLib
  * \param v1 array of type T representing the vector
  * \param n the size of the array
  * */
-template<class T> inline
-double scpr(const T* v0, const T* v1, size_t n)
+template <class T>
+inline double scpr(const T* v0, const T* v1, size_t n)
 {
 	long double res(0.0);
 	for (size_t k(0); k < n; k++)
 		res += v0[k] * v1[k];
-	return (double) res;
+	return (double)res;
 }
 
 /**
  * computes the cross (or vector) product of the 3d vectors u and v
  * the result is given in the vector r
  */
-void crossProd (const double u[3], const double v[3], double r[3]);
+void crossProd(const double u[3], const double v[3], double r[3]);
 
 /**
  * calcProjPntToLineAndDists computes the orthogonal projection
@@ -56,16 +56,19 @@ void crossProd (const double u[3], const double v[3], double r[3]);
  * \returns the distance between p and the orthogonal projection of p
  */
 double calcProjPntToLineAndDists(const double p[3], const double a[3],
-                                 const double b[3], double &lambda, double &d0);
+                                 const double b[3], double& lambda, double& d0);
 
 /**
  * Checks if two points are within a given distance of each other
  * @param p0 The first point
  * @param p1 the second point
- * @param squaredDistance The square of the distance within which the two points should be
- * @return true if p1 and p2 are within the given distance of each other, false otherwise
+ * @param squaredDistance The square of the distance within which the two points
+ * should be
+ * @return true if p1 and p2 are within the given distance of each other, false
+ * otherwise
  */
-bool checkDistance(GEOLIB::Point const &p0, GEOLIB::Point const &p1, double squaredDistance);
+bool checkDistance(GEOLIB::Point const& p0, GEOLIB::Point const& p1,
+                   double squaredDistance);
 
 /** squared euklid norm of the vector p0 */
 double sqrNrm2(const GEOLIB::Point* const p0);
@@ -77,7 +80,7 @@ double sqrDist(const GEOLIB::Point* p0, const GEOLIB::Point* p1);
 inline double sqrDist(double const* p0, double const* p1)
 {
 	const double v[3] = {p1[0] - p0[0], p1[1] - p0[1], p1[2] - p0[2]};
-	return scpr (v, v, 3);
+	return scpr(v, v, 3);
 }
 
 /** linear normalisation of val from [min, max] into [0,1] */
@@ -91,24 +94,24 @@ float normalize(float min, float max, float val);
  * @param p2 end point of edge 1
  * @return the angle between the edges
  */
-double getAngle (const double p0[3], const double p1[3], const double p2[3]);
+double getAngle(const double p0[3], const double p1[3], const double p2[3]);
 
 /**
- * simple power function that takes as a second argument an integer instead of a float
+ * simple power function that takes as a second argument an integer instead of a
+ * float
  * @param base basis of the expression
  * @param exp exponent of the expression
  * @return base^exp
  */
-template <typename T> inline
-T fastpow (T base, size_t exp)
+template <typename T>
+inline T fastpow(T base, size_t exp)
 {
-	T result (base);
-	if (exp == 0)
-		result = static_cast<T>(1);
+	T result(base);
+	if (exp == 0) result = static_cast<T>(1);
 	for (size_t k(1); k < exp; k++)
 		result *= base;
 	return result;
 }
-} // namespace
+}  // namespace
 
 #endif /* MATHTOOLS_H_ */

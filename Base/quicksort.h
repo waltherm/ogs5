@@ -29,15 +29,14 @@ size_t partition_(T* array, size_t beg, size_t end, size_t* perm)
 	size_t j = end - 1;
 	T m = array[beg];
 
-	for (;; )
+	for (;;)
 	{
 		while ((i < end) && (array[i] <= m))
 			i++;
 		while ((j > beg) && !(array[j] <= m))
 			j--;
 
-		if (i >= j)
-			break;
+		if (i >= j) break;
 		BASELIB::swap(array[i], array[j]);
 		BASELIB::swap(perm[i], perm[j]);
 	}
@@ -68,26 +67,28 @@ template <typename T>
 class Quicksort
 {
 public:
-	Quicksort (std::vector<T>& array, size_t beg, size_t end, std::vector<size_t>& perm)
+	Quicksort(std::vector<T>& array, size_t beg, size_t end,
+	          std::vector<size_t>& perm)
 	{
-		quicksort (array, beg, end, perm);
+		quicksort(array, beg, end, perm);
 	}
+
 private:
-	size_t partition_(std::vector<T>& array, size_t beg, size_t end, std::vector<size_t>& perm)
+	size_t partition_(std::vector<T>& array, size_t beg, size_t end,
+	                  std::vector<size_t>& perm)
 	{
 		size_t i = beg + 1;
 		size_t j = end - 1;
 		T m = array[beg];
 
-		for (;; )
+		for (;;)
 		{
 			while ((i < end) && (array[i] <= m))
 				i++;
 			while ((j > beg) && !(array[j] <= m))
 				j--;
 
-			if (i >= j)
-				break;
+			if (i >= j) break;
 			BASELIB::swap(array[i], array[j]);
 			BASELIB::swap(perm[i], perm[j]);
 		}
@@ -97,7 +98,8 @@ private:
 		return j;
 	}
 
-	void quicksort(std::vector<T>& array, size_t beg, size_t end, std::vector<size_t>& perm)
+	void quicksort(std::vector<T>& array, size_t beg, size_t end,
+	               std::vector<size_t>& perm)
 	{
 		if (beg < end)
 		{
@@ -110,35 +112,37 @@ private:
 
 // specialization for pointer types
 template <typename T>
-class Quicksort <T*>
+class Quicksort<T*>
 {
 public:
-	Quicksort (std::vector<T*>& array, size_t beg, size_t end, std::vector<size_t>& perm)
+	Quicksort(std::vector<T*>& array, size_t beg, size_t end,
+	          std::vector<size_t>& perm)
 	{
-		quicksort (array, beg, end, perm);
+		quicksort(array, beg, end, perm);
 	}
 
-	Quicksort (std::vector<size_t>& perm, size_t beg, size_t end, std::vector<T*>& array)
+	Quicksort(std::vector<size_t>& perm, size_t beg, size_t end,
+	          std::vector<T*>& array)
 	{
-		quicksort (perm, beg, end, array);
+		quicksort(perm, beg, end, array);
 	}
 
 private:
-	size_t partition_(std::vector<T*>& array, size_t beg, size_t end, std::vector<size_t>& perm)
+	size_t partition_(std::vector<T*>& array, size_t beg, size_t end,
+	                  std::vector<size_t>& perm)
 	{
 		size_t i = beg + 1;
 		size_t j = end - 1;
 		T* m = array[beg];
 
-		for (;; )
+		for (;;)
 		{
 			while ((i < end) && (*array[i] <= *m))
 				i++;
 			while ((j > beg) && !(*array[j] <= *m))
 				j--;
 
-			if (i >= j)
-				break;
+			if (i >= j) break;
 			BASELIB::swap(array[i], array[j]);
 			BASELIB::swap(perm[i], perm[j]);
 		}
@@ -148,7 +152,8 @@ private:
 		return j;
 	}
 
-	void quicksort(std::vector<T*>& array, size_t beg, size_t end, std::vector<size_t>& perm)
+	void quicksort(std::vector<T*>& array, size_t beg, size_t end,
+	               std::vector<size_t>& perm)
 	{
 		if (beg < end)
 		{
@@ -158,21 +163,21 @@ private:
 		}
 	}
 
-	size_t partition_(std::vector<size_t> &perm, size_t beg, size_t end, std::vector<T*>& array)
+	size_t partition_(std::vector<size_t>& perm, size_t beg, size_t end,
+	                  std::vector<T*>& array)
 	{
 		size_t i = beg + 1;
 		size_t j = end - 1;
 		size_t m = perm[beg];
 
-		for (;; )
+		for (;;)
 		{
 			while ((i < end) && (perm[i] <= m))
 				i++;
 			while ((j > beg) && !(perm[j] <= m))
 				j--;
 
-			if (i >= j)
-				break;
+			if (i >= j) break;
 			BASELIB::swap(perm[i], perm[j]);
 			BASELIB::swap(array[i], array[j]);
 		}
@@ -182,7 +187,8 @@ private:
 		return j;
 	}
 
-	void quicksort(std::vector<size_t>& perm, size_t beg, size_t end, std::vector<T*>& array)
+	void quicksort(std::vector<size_t>& perm, size_t beg, size_t end,
+	               std::vector<T*>& array)
 	{
 		if (beg < end)
 		{

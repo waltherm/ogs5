@@ -19,8 +19,9 @@
 
 namespace MathLib
 {
-CubicSpline::CubicSpline(const std::vector<double>& s, const std::vector<double>& val) :
-	n (s.size()), bb (new double[n]), cc (new double[n]), dd (new double[n])
+CubicSpline::CubicSpline(const std::vector<double>& s,
+                         const std::vector<double>& val)
+    : n(s.size()), bb(new double[n]), cc(new double[n]), dd(new double[n])
 {
 	xx = s;
 	yy = val;
@@ -29,9 +30,9 @@ CubicSpline::CubicSpline(const std::vector<double>& s, const std::vector<double>
 
 CubicSpline::~CubicSpline()
 {
-	delete [] bb;
-	delete [] cc;
-	delete [] dd;
+	delete[] bb;
+	delete[] cc;
+	delete[] dd;
 	bb = NULL;
 	cc = NULL;
 	dd = NULL;
@@ -48,21 +49,19 @@ double CubicSpline::interpolation(double x) const
 		if (x >= xx[i] && x < xx[i + 1])
 		{
 			// 07/2010 TF
-//			val = yy[i] + bb[i] * (x - xx[i]) + cc[i] * pow(x - xx[i], 2.0)
-//					+ dd[i] * pow(x - xx[i], 3.0);
-			double t (x - xx[i]);
+			//			val = yy[i] + bb[i] * (x - xx[i]) + cc[i] * pow(x -
+			//xx[i],
+			// 2.0)
+			//					+ dd[i] * pow(x - xx[i], 3.0);
+			double t(x - xx[i]);
 			// employing Horner-Schema in order to save multiplications
 			val = yy[i] + t * (bb[i] + t * (cc[i] + t * dd[i]));
 
-			//Check the local range
-			if (yy[i] > y_max)
-				y_max = yy[i];
-			if (yy[i + 1] > y_max)
-				y_max = yy[i + 1];
-			if (yy[i] < y_min)
-				y_min = yy[i];
-			if (yy[i + 1] < y_min)
-				y_min = yy[i + 1];
+			// Check the local range
+			if (yy[i] > y_max) y_max = yy[i];
+			if (yy[i + 1] > y_max) y_max = yy[i + 1];
+			if (yy[i] < y_min) y_min = yy[i];
+			if (yy[i + 1] < y_min) y_min = yy[i + 1];
 
 			// Linear interpolation
 			if (val < y_min || val > y_max)
@@ -71,8 +70,7 @@ double CubicSpline::interpolation(double x) const
 			break;
 		}
 
-	if (withinR)
-		return val;
+	if (withinR) return val;
 	//-------------------------------------
 	// Extrapolate
 	//-------------------------------------
@@ -81,10 +79,8 @@ double CubicSpline::interpolation(double x) const
 	y_min = 1.0e14;
 	for (size_t i = 0; i < n; i++)
 	{
-		if (yy[i] > y_max)
-			y_max = yy[i];
-		if (yy[i] < y_min)
-			y_min = yy[i];
+		if (yy[i] > y_max) y_max = yy[i];
+		if (yy[i] < y_min) y_min = yy[i];
 	}
 	if ((x >= xx[n - 1]) || (x <= xx[0]))
 	{
@@ -103,10 +99,8 @@ double CubicSpline::interpolation(double x) const
 			y1 = yy[n - 1];
 		}
 		val = y0 + (y1 - y0) * (x - x0) / (x1 - x0);
-		if (val < y_min)
-			val = y_min;
-		if (val > y_max)
-			val = y_max;
+		if (val < y_min) val = y_min;
+		if (val > y_max) val = y_max;
 	}
 
 	return val;
@@ -184,12 +178,11 @@ void CubicSpline::computeCoefficents()
 		if (n > 3)
 		{
 			cc[0] = cc[2] / (xx[3] - xx[1]) - cc[1] / (xx[2] - xx[0]);
-			cc[n - 1] = cc[n - 2] / (xx[n - 1] - xx[n - 3]) - cc[n - 3] / (xx[n
-			                                                                  - 2] -
-			                                                               xx[n - 4]);
+			cc[n - 1] = cc[n - 2] / (xx[n - 1] - xx[n - 3]) -
+			            cc[n - 3] / (xx[n - 2] - xx[n - 4]);
 			cc[0] = cc[0] * fastpow(dd[0], 2) / (xx[3] - xx[0]);
-			cc[n - 1] = -cc[n - 1] * fastpow(dd[n - 2], 2) / (xx[n - 1] - xx[n
-			                                                                 - 4]);
+			cc[n - 1] =
+			    -cc[n - 1] * fastpow(dd[n - 2], 2) / (xx[n - 1] - xx[n - 4]);
 		}
 
 		// *** forward elimination
@@ -212,12 +205,12 @@ void CubicSpline::computeCoefficents()
 		//
 		//  compute polynomial coefficients
 		//
-		bb[n - 1] = (yy[n - 1] - yy[n - 1 - 1]) / dd[n - 1 - 1] + dd[n - 1 - 1]
-		            * (cc[n - 1 - 1] + 2.0 * cc[n - 1]);
+		bb[n - 1] = (yy[n - 1] - yy[n - 1 - 1]) / dd[n - 1 - 1] +
+		            dd[n - 1 - 1] * (cc[n - 1 - 1] + 2.0 * cc[n - 1]);
 		for (size_t i = 0; i < n - 1; i++)
 		{
-			bb[i] = (yy[i + 1] - yy[i]) / dd[i] - dd[i] * (cc[i + 1] + 2.0
-			                                               * cc[i]);
+			bb[i] =
+			    (yy[i + 1] - yy[i]) / dd[i] - dd[i] * (cc[i + 1] + 2.0 * cc[i]);
 			dd[i] = (cc[i + 1] - cc[i]) / dd[i];
 			cc[i] = 3.0 * cc[i];
 		}
@@ -225,4 +218,4 @@ void CubicSpline::computeCoefficents()
 		dd[n - 1] = dd[n - 2];
 	}
 }
-} // end namespace MathLib
+}  // end namespace MathLib

@@ -19,8 +19,10 @@
 
 namespace FileIO
 {
-bool GeoIO::readGeoInfo (GeoInfo* geo_info, std::istream& in_str, std::string& geo_name,
-                         const GEOLIB::GEOObjects& geo_obj, const std::string& unique_geo_name)
+bool GeoIO::readGeoInfo(GeoInfo* geo_info, std::istream& in_str,
+                        std::string& geo_name,
+                        const GEOLIB::GEOObjects& geo_obj,
+                        const std::string& unique_geo_name)
 {
 	std::stringstream strstream;
 	strstream.str(readNonBlankLineFromInputStream(in_str));
@@ -32,21 +34,24 @@ bool GeoIO::readGeoInfo (GeoInfo* geo_info, std::istream& in_str, std::string& g
 		geo_info->setGeoType(GEOLIB::POINT);
 		strstream >> geo_name;
 
-		const GEOLIB::PointVec* pnt_vec(geo_obj.getPointVecObj(unique_geo_name));
+		const GEOLIB::PointVec* pnt_vec(
+		    geo_obj.getPointVecObj(unique_geo_name));
 		if (pnt_vec)
 		{
 			const GEOLIB::Point* pnt(pnt_vec->getElementByName(geo_name));
 			if (pnt == NULL)
 			{
 				std::cerr << "ERROR in GeoIO::readGeoInfo: point name \""
-						  << geo_name << "\" not found!" << "\n";
+				          << geo_name << "\" not found!"
+				          << "\n";
 				exit(1);
 			}
 			geo_info->setGeoObj(pnt);
 			return true;
 		}
 
-		std::cerr << "Error in GeoIO::readGeoInfo: point vector not found!" <<"\n";
+		std::cerr << "Error in GeoIO::readGeoInfo: point vector not found!"
+		          << "\n";
 		exit(1);
 	}
 
@@ -54,21 +59,24 @@ bool GeoIO::readGeoInfo (GeoInfo* geo_info, std::istream& in_str, std::string& g
 	{
 		geo_info->setGeoType(GEOLIB::POLYLINE);
 		strstream >> geo_name;
-		const GEOLIB::PolylineVec* ply_vec = geo_obj.getPolylineVecObj(unique_geo_name);
+		const GEOLIB::PolylineVec* ply_vec =
+		    geo_obj.getPolylineVecObj(unique_geo_name);
 		if (ply_vec)
 		{
 			const GEOLIB::Polyline* ply(ply_vec->getElementByName(geo_name));
 			if (ply == NULL)
 			{
 				std::cerr << "error in GeoIO::readGeoInfo: polyline name \""
-					      << geo_name << "\" not found!" << "\n";
+				          << geo_name << "\" not found!"
+				          << "\n";
 				exit(1);
 			}
 			geo_info->setGeoObj(ply);
 			return true;
 		}
 
-		std::cerr << "Error in GeoIO::readGeoInfo: polyline vector not found!" <<"\n";
+		std::cerr << "Error in GeoIO::readGeoInfo: polyline vector not found!"
+		          << "\n";
 		exit(1);
 	}
 
@@ -76,21 +84,24 @@ bool GeoIO::readGeoInfo (GeoInfo* geo_info, std::istream& in_str, std::string& g
 	{
 		geo_info->setGeoType(GEOLIB::SURFACE);
 		strstream >> geo_name;
-		GEOLIB::SurfaceVec const* sfc_vec (geo_obj.getSurfaceVecObj(unique_geo_name));
+		GEOLIB::SurfaceVec const* sfc_vec(
+		    geo_obj.getSurfaceVecObj(unique_geo_name));
 		if (sfc_vec)
 		{
 			const GEOLIB::Surface* sfc(sfc_vec->getElementByName(geo_name));
 			if (sfc == NULL)
 			{
 				std::cerr << "Error in GeoIO::readGeoInfo: surface name \""
-						  << geo_name << "\" not found!" << "\n";
+				          << geo_name << "\" not found!"
+				          << "\n";
 				exit(1);
 			}
 			geo_info->setGeoObj(sfc);
 			return true;
 		}
 
-		std::cerr << "Error in GeoIO::readGeoInfo: surface vector not found!" <<"\n";
+		std::cerr << "Error in GeoIO::readGeoInfo: surface vector not found!"
+		          << "\n";
 		exit(1);
 	}
 
@@ -112,5 +123,4 @@ bool GeoIO::readGeoInfo (GeoInfo* geo_info, std::istream& in_str, std::string& g
 
 	return false;
 }
-
 }
