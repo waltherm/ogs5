@@ -475,4 +475,6 @@ extern void GetGreenAmptNODValue(double& value, CSourceTerm* m_st, long msh_node
 extern void GetNODValue(double& value, CNodeValue* cnodev, CSourceTerm* m_st);
 
 extern void GetNODHeatTransfer(double& value, CSourceTerm* st, long geo_node); // TN
+
+extern void GetNODMassTransfer(double& value, CSourceTerm* st, long geo_node);
 #endif

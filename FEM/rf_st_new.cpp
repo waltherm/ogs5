@@ -2947,6 +2947,12 @@ void GetNODValue(double& value, CNodeValue* cnodev, CSourceTerm* st)
 		GetNODHeatTransfer(value, st, cnodev->geo_node_number);
 		// value = st->getTransferCoefficient()*cnodev->node_area*(cnodev->node_value - st->getValueSurrounding());
 	}
+	else if (st->getProcessPrimaryVariable() == FiniteElement::CONCENTRATION
+		     && st->getProcessDistributionType() == FiniteElement::TRANSFER_SURROUNDING)
+	{
+		GetNODMassTransfer(value, st, cnodev->geo_node_number);
+		// value = st->getTransferCoefficient()*cnodev->node_area*(cnodev->node_value - st->getValueSurrounding());
+	}
 }
 
 /**************************************************************************
@@ -3008,6 +3014,66 @@ void GetNODHeatTransfer(double& value, CSourceTerm* st, long geo_node)
 		value *= (1.0 - poro);
 	else if (st->getProcessPrimaryVariable() == FiniteElement::TEMPERATURE)
 		value *= poro;
+}
+
+
+/**************************************************************************
+ FEMLib-Method:
+ Task: Compute mass flux for mass transfer boundary condition
+ Programing:
+ 09/2016 MW copy and adaption from GetNODHeatTransfer
+ last modified:
+ **************************************************************************/
+void GetNODMassTransfer(double& value, CSourceTerm* st, long geo_node)
+{
+	CRFProcess* m_pcs_this = NULL;
+	double poro;
+
+	// Get process type
+	m_pcs_this = PCSGet(convertProcessTypeToString(st->getProcessType()));
+	// Get Mesh
+	CFEMesh* mesh(m_pcs_this->m_msh);
+
+	// Get number of conneted elements
+	size_t number_of_connected_elements = mesh->nod_vector[geo_node]->getConnectedElementIDs().size();
+
+	poro = 0.0;
+	double geo_area = 0.0;
+
+	// loop over connected elements and get average porosity
+	for (size_t i = 0; i < number_of_connected_elements; i++)
+	{
+		long msh_ele = mesh->nod_vector[geo_node]->getConnectedElementIDs()[i];
+		int group = mesh->ele_vector[msh_ele]->GetPatchIndex();
+		poro += mmp_vector[group]->porosity;
+		geo_area += mmp_vector[group]->geo_area;
+	}
+	poro /= number_of_connected_elements;
+	geo_area /= number_of_connected_elements;
+
+	// if (mesh->isAxisymmetry() && mesh->GetMaxElementDim()!=1) //For axisymmetric 2D meshes geometry area is
+	// irrelevant
+	// geo_area = 1.0;
+
+	// Get index of primary variable
+	long nidx1 = m_pcs_this->GetNodeValueIndex(convertPrimaryVariableToString(st->getProcessPrimaryVariable())) + 1;
+
+	// Get current primary variable value at that node
+	double mass = m_pcs_this->GetNodeValue(geo_node, nidx1);
+
+	// Find position of current node in st vectors
+	size_t i;
+	for (i = 0; i < st->get_node_value_vectorArea().size(); i++)
+	{
+		if (geo_node == st->st_node_ids[i])
+			break;
+	}
+
+	value = st->getTransferCoefficient() * (st->getValueSurrounding() - mass);
+	value *= st->get_node_value_vectorArea()[i] * geo_area;
+
+	value *= poro;
+
 }
 
 /**************************************************************************
