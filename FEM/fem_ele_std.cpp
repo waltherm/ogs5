@@ -9639,20 +9639,24 @@ void CFiniteElementStd::CalcSaturation(MeshLib::CElem& elem)
 			ComputeShapefct(1, dbuff0); // Linear interpolation function
 			for (int j = i_s; j < i_e; j++)
 				eS += NodalVal_Sat[j] * dbuff0[j - ish];
+
 		}
 		else if (this->GetExtrapoMethod() == ExtrapolationMethod::EXTRAPO_AVERAGE)
 			eS = avgSat;
+
+		if (eS < 0 || eS > 1)
+			eS = CalcAverageGaussPointValues(NodalVal_Sat);
 
 		// Average value of the contribution of ell neighbor elements
 		eS /= dbuff[i];
 		eS += pcs->GetNodeValue(nodes[i], idx_S);
 		// In case the node is on the material interface
-		if (eS > 1.0)
-			eS = 1.0;
-		if (MediaProp->permeability_saturation_model[0] == 10
-		    && eS < MediaProp->capillary_pressure_values[1]) // MW: limit to non-negative saturation for stability in
-		                                                     // unconfined gw
-			eS = MediaProp->capillary_pressure_values[1];
+//		if (eS > 1.0)
+//			eS = 1.0;
+//		if (MediaProp->permeability_saturation_model[0] == 10
+//		    && eS < MediaProp->capillary_pressure_values[1]) // MW: limit to non-negative saturation for stability in
+//		                                                     // unconfined gw
+//			eS = MediaProp->capillary_pressure_values[1];
 		//
 		pcs->SetNodeValue(nodes[i], idx_S, eS);
 	}

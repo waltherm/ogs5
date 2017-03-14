@@ -7491,7 +7491,7 @@ bool CRFProcess::checkConstrainedBC(CBoundaryCondition const& bc, CBoundaryCondi
 			}
 		}
 	}
-	std::cout << "Non existing combination for constrained BC direction given. Using normal BC." << std::endl;
+//	std::cout << "Non existing combination for constrained BC direction given. Using normal BC." << std::endl;
 	return false;
 }
 
