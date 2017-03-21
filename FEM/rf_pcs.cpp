@@ -7462,7 +7462,7 @@ bool CRFProcess::checkConstrainedBC(CBoundaryCondition const& bc, CBoundaryCondi
 					         == ConstrainedType::SMALLER) // exclude smaller values
 					{
 						if (bc.getProcessType()
-						    == local_constrained.constrainedProcessType) // check if correct process type
+						    == local_constrained.constrainedProcessType) // check if constrained bc is referring to same process type
 						{
 							if (bc_node.node_value_pre_calc
 							    < local_constrained.constrainedValue) // limit BC if constrained below BC value
@@ -7485,6 +7485,13 @@ bool CRFProcess::checkConstrainedBC(CBoundaryCondition const& bc, CBoundaryCondi
 								else
 									return true;
 							}
+						}
+						else	// constrained refers to other process
+						{
+							double local_value(0.1 * pcs->GetNodeValue(bc_node.geo_node_number, 2 * k + 1)
+									+ 0.9 * pcs->GetNodeValue(bc_node.geo_node_number, 2 * k));
+							if (local_value < local_constrained.constrainedValue)
+								return true;
 						}
 					}
 				}
