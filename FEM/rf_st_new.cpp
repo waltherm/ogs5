@@ -490,7 +490,7 @@ std::ios::pos_type CSourceTerm::Read(std::ifstream* st_file, const GEOLIB::GEOOb
 				else
 				{
 					if (tempst2 == "ABORT_TIME")
-						temp._abortTimeOutput = true;
+						temp._isAbortTimeOutput = true;
 					else
 						std::cout << "Not a valid ST constrain option. Possibilities: COMPLETE_CONSTRAIN, ABORT_TIME." << std::endl;
 				}

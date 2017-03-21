@@ -43,6 +43,7 @@
 #endif
 
 // C++
+#include <cstdlib>
 #include <cfloat>
 #include <iomanip> //WW
 #include <iostream>
@@ -7316,7 +7317,7 @@ bool CRFProcess::checkConstrainedST(std::vector<CSourceTerm*>& st_vector, CSourc
 	bool return_value(false);
 	for (std::size_t i = 0; i < st.getNumberOfConstrainedSTs(); i++)
 	{
-		bool constrained_bool(false);
+		bool constrained_bool(false); double local_value;
 		const Constrained& local_constrained(st.getConstrainedST(i));
 
 		if (local_constrained.constrainedPrimVar == FiniteElement::PRESSURE
@@ -7333,7 +7334,7 @@ bool CRFProcess::checkConstrainedST(std::vector<CSourceTerm*>& st_vector, CSourc
 				    == FiniteElement::convertPrimaryVariableToString(local_constrained.constrainedPrimVar))
 				{
 					// value of PrimVar of other process at current node
-					double local_value = pcs->GetNodeValue(st_node.geo_node_number, 2 * k + 1);
+					local_value = pcs->GetNodeValue(st_node.geo_node_number, 2 * k + 1);
 
 					// FIXME: if getPressureAsHead != -1, then the head is expected
 					// however, getPressureAsHead is part of CBoundaryCondition (m_bc in IncorporateBoundaryConditions)
@@ -7359,10 +7360,38 @@ bool CRFProcess::checkConstrainedST(std::vector<CSourceTerm*>& st_vector, CSourc
 		}
 		st_vector[st_node.getSTVectorGroup()]->setConstrainedSTNode(i, constrained_bool, st_node.getSTVectorIndex());
 		if (constrained_bool)
+		{
 			return_value = true;
+			if (local_constrained._isAbortTimeOutput)
+			{
+				std::cout << "\n\n!!! ConstrainedST has been evaluated true with option ABORT_TIME. " << std::endl;
+				writeConstrainedSTAbortTime(local_constrained, st_node.geo_node_number, local_value);
+				std::cout << "!!! Stopping simulation now." << std::endl;
+				std::exit(0);
+			}
+		}
 	}
 
 	return return_value;
+}
+
+void CRFProcess::writeConstrainedSTAbortTime(const Constrained& constrained, std::size_t node_id, double value)
+{
+	std::stringstream abortTimeFileSS;
+	abortTimeFileSS << out_vector[0]->getFileBaseName()
+			<< "_ABORT_TIME.txt";
+	std::string abortTimeFName(abortTimeFileSS.str());
+	std::cout << "!!! Writing current simulation time to file " << abortTimeFName << "." << std::endl;
+	ofstream abortTimeFile;
+	abortTimeFile.open(abortTimeFName.c_str());
+	abortTimeFile << aktuelle_zeit
+			<< "\n constrained PCS_TYPE " << FiniteElement::convertProcessTypeToString(constrained.constrainedProcessType)
+			<< "\n evaluated PRIMARY_VARIABLE " << FiniteElement::convertPrimaryVariableToString(constrained.constrainedPrimVar)
+			<< "\n value should not be " << convertConstrainedTypeToString(constrained.constrainedDirection)
+			<< " than " << constrained.constrainedValue
+			<< " but was " << value
+			<< "\n node_id " << node_id;
+	abortTimeFile.close();
 }
 
 bool CRFProcess::checkConstrainedBC(CBoundaryCondition const& bc, CBoundaryConditionNode& bc_node, double& bc_value)
