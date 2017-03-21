@@ -494,7 +494,7 @@ std::ios::pos_type CSourceTerm::Read(std::ifstream* st_file, const GEOLIB::GEOOb
 					else
 					{
 						if (tempst2 == "ABORT_REACTIVATE_TIME")
-							temp._reactivateTimeOutputAbort = true;
+							temp._isReactivateTimeOutputAbort = true;
 						else
 							std::cout << "Warning: Not a valid ST constrain option. Possibilities:\n COMPLETE_CONSTRAIN\n ABORT_TIME\n ABORT_REACTIVATE_TIME" << std::endl;
 					}
@@ -3156,7 +3156,11 @@ void CSourceTermGroup::SetPNT(CRFProcess* pcs, CSourceTerm* st, const int ShiftI
 	{
 		st->_constrainedSTNodesIndices.push_back(-1);
 		for (std::size_t i(0); i < st->getNumberOfConstrainedSTs(); i++)
+		{
 			st->pushBackConstrainedSTNode(i, false);
+			if (st->getConstrainedST(i)._isReactivateTimeOutputAbort)
+				st->pushBackConstrainedSTNodeDeactivateTime(i, -1);
+		}
 	}
 
 	// WW        group_vector.push_back(m_node_value);
@@ -3262,8 +3266,12 @@ void CSourceTermGroup::SetPLY(CSourceTerm* st, int ShiftInNodeVector)
 			for (std::size_t i(0); i < st->st_node_ids.size(); i++)
 			{
 				st->_constrainedSTNodesIndices.push_back(-1);
-				for (std::size_t i(0); i < st->getNumberOfConstrainedSTs(); i++)
-					st->pushBackConstrainedSTNode(i, false);
+				for (std::size_t j(0); j < st->getNumberOfConstrainedSTs(); j++)
+				{
+					st->pushBackConstrainedSTNode(j, false);
+					if (st->getConstrainedST(j)._isReactivateTimeOutputAbort)
+						st->pushBackConstrainedSTNodeDeactivateTime(j, -1);
+				}
 			}
 		}
 
@@ -3374,8 +3382,12 @@ void CSourceTermGroup::SetSFC(CSourceTerm* m_st, const int ShiftInNodeVector)
 			for (std::size_t i(0); i < m_st->st_node_ids.size(); i++)
 			{
 				m_st->_constrainedSTNodesIndices.push_back(-1);
-				for (std::size_t i(0); i < m_st->getNumberOfConstrainedSTs(); i++)
-					m_st->pushBackConstrainedSTNode(i, false);
+				for (std::size_t j(0); j < m_st->getNumberOfConstrainedSTs(); j++)
+				{
+					m_st->pushBackConstrainedSTNode(j, false);
+					if (m_st->getConstrainedST(j)._isReactivateTimeOutputAbort)
+						m_st->pushBackConstrainedSTNodeDeactivateTime(j, -1);
+				}
 			}
 		}
 

@@ -178,6 +178,14 @@ public:
 	{
 		_constrainedST[constrainedID]._constrainedNodes[position] = node_status;
 	}
+	double getConstrainedSTNodeDeactivateTime(std::size_t constrainedID, int position) const
+	{
+		return _constrainedST[constrainedID]._constrainedNodesDeactivateTime[position];
+	}
+	void setConstrainedSTNodeDeactivateTime(std::size_t constrainedID, double time, int position)
+	{
+		_constrainedST[constrainedID]._constrainedNodesDeactivateTime[position] = time;
+	}
 	std::size_t getNumberOfConstrainedSTNodes(std::size_t constrainedID) const
 	{
 		return _constrainedST[constrainedID]._constrainedNodes.size();

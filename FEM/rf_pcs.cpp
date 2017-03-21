@@ -7369,11 +7369,22 @@ bool CRFProcess::checkConstrainedST(std::vector<CSourceTerm*>& st_vector, CSourc
 				std::cout << "!!! Stopping simulation now." << std::endl;
 				std::exit(0);
 			}
-			if (local_constrained._isReactivateTimeOutputAbort)
+			if (local_constrained._isReactivateTimeOutputAbort
+					&& st_vector[st_node.getSTVectorGroup()]->getConstrainedSTNodeDeactivateTime(i, st_node.getSTVectorIndex()) < 0)
+				st_vector[st_node.getSTVectorGroup()]->setConstrainedSTNodeDeactivateTime(i, aktuelle_zeit, st_node.getSTVectorIndex());
+		}
+		else
+		{
+			if (local_constrained._isReactivateTimeOutputAbort
+					&& !(local_constrained._completeConstrainedStateOff)
+					&& st_vector[st_node.getSTVectorGroup()]->getConstrainedSTNodeDeactivateTime(i, st_node.getSTVectorIndex()) >= 0)
 			{
-
+				std::cout << "\n\n!!! ConstrainedST has been evaluated true with option REACTIVATE_TIME_ABORT. " << std::endl;
+				writeConstrainedSTReactivateTimeAbort(local_constrained, st_node.geo_node_number, local_value,
+						st_vector[st_node.getSTVectorGroup()]->getConstrainedSTNodeDeactivateTime(i, st_node.getSTVectorIndex()));
+				std::cout << "!!! Stopping simulation now." << std::endl;
+				std::exit(0);
 			}
-
 		}
 	}
 
@@ -7390,11 +7401,34 @@ void CRFProcess::writeConstrainedSTAbortTime(const Constrained& constrained, std
 	ofstream abortTimeFile;
 	abortTimeFile.open(abortTimeFName.c_str());
 	abortTimeFile << aktuelle_zeit
+			<< "\n time step size " << aktueller_zeitschritt
 			<< "\n constrained PCS_TYPE " << FiniteElement::convertProcessTypeToString(constrained.constrainedProcessType)
 			<< "\n evaluated PRIMARY_VARIABLE " << FiniteElement::convertPrimaryVariableToString(constrained.constrainedPrimVar)
 			<< "\n value should not be " << convertConstrainedTypeToString(constrained.constrainedDirection)
 			<< " than " << constrained.constrainedValue
 			<< " but was " << value
+			<< "\n node_id " << node_id;
+	abortTimeFile.close();
+}
+
+void CRFProcess::writeConstrainedSTReactivateTimeAbort(const Constrained& constrained, std::size_t node_id, double value, double deactivateTime)
+{
+	std::stringstream abortTimeFileSS;
+	abortTimeFileSS << out_vector[0]->getFileBaseName()
+			<< "_REACTIVATE_TIME_ABORT.txt";
+	std::string abortTimeFName(abortTimeFileSS.str());
+	std::cout << "!!! Writing current simulation time to file " << abortTimeFName << "." << std::endl;
+	ofstream abortTimeFile;
+	abortTimeFile.open(abortTimeFName.c_str());
+	abortTimeFile << aktuelle_zeit - deactivateTime	//TODO probably need fixed number format (setprecision)
+			<< "\n deactivate time " << deactivateTime
+			<< "\n reactivate time " << aktuelle_zeit
+			<< "\n time step size " << aktueller_zeitschritt
+			<< "\n constrained PCS_TYPE " << FiniteElement::convertProcessTypeToString(constrained.constrainedProcessType)
+			<< "\n evaluated PRIMARY_VARIABLE " << FiniteElement::convertPrimaryVariableToString(constrained.constrainedPrimVar)
+			<< "\n value should have not been " << convertConstrainedTypeToString(constrained.constrainedDirection)
+			<< " than " << constrained.constrainedValue
+			<< " is now " << value
 			<< "\n node_id " << node_id;
 	abortTimeFile.close();
 }
