@@ -22,7 +22,9 @@ struct Constrained
 	bool _isCompleteConstrained;
 	bool _completeConstrainedStateOff;
 	bool _isAbortTimeOutput;
+	bool _isReactivateTimeOutputAbort;
 	std::vector<bool> _constrainedNodes;
+	std::vector<double> _constrainedNodesDeactivateTime;
 	bool _isConstrainedVelStable;
 	bool _isSeepageBC;
 
@@ -31,7 +33,9 @@ struct Constrained
 	      constrainedPrimVar(FiniteElement::INVALID_PV),
 	      constrainedDirection(ConstrainedType::INVALID_CONSTRAINED_TYPE),
 	      constrainedVariable(ConstrainedVariable::INVALID_CONSTRAINED_VARIABLE), _isCompleteConstrained(false),
-		  _completeConstrainedStateOff(false), _isAbortTimeOutput(false), _isConstrainedVelStable(false), _isSeepageBC(false)
+		  _completeConstrainedStateOff(false), _isAbortTimeOutput(false), _isReactivateTimeOutputAbort(false),
+		  _isConstrainedVelStable(false), _isSeepageBC(false)
+
 	{
 	}
 };

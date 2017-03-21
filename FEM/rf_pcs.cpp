@@ -7369,6 +7369,11 @@ bool CRFProcess::checkConstrainedST(std::vector<CSourceTerm*>& st_vector, CSourc
 				std::cout << "!!! Stopping simulation now." << std::endl;
 				std::exit(0);
 			}
+			if (local_constrained._isReactivateTimeOutputAbort)
+			{
+
+			}
+
 		}
 	}
 

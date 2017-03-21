@@ -166,6 +166,10 @@ public:
 	{
 		_constrainedST[constrainedID]._constrainedNodes.push_back(constrainedStatus);
 	}
+	void pushBackConstrainedSTNodeDeactivateTime(std::size_t constrainedID, double time)
+	{
+		_constrainedST[constrainedID]._constrainedNodesDeactivateTime.push_back(time);
+	}
 	bool getConstrainedSTNode(std::size_t constrainedID, int position) const
 	{
 		return _constrainedST[constrainedID]._constrainedNodes[position];
