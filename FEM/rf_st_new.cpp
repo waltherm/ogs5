@@ -452,7 +452,7 @@ std::ios::pos_type CSourceTerm::Read(std::ifstream* st_file, const GEOLIB::GEOOb
 
 			_isConstrainedST = true;
 			in.str(readNonBlankLineFromInputStream(*st_file));
-			std::string tempst;
+			std::string tempst, tempst2;
 
 			in >> tempst; // PROCESS_TYPE associated with PRIMARY_VARIABLE
 			temp.constrainedProcessType = FiniteElement::convertProcessType(tempst);
@@ -482,10 +482,20 @@ std::ios::pos_type CSourceTerm::Read(std::ifstream* st_file, const GEOLIB::GEOOb
 				_isConstrainedST = false;
 			}
 
-			in >> tempst; // full constrain option
-			if (tempst == "COMPLETE_CONSTRAIN")
+			in >> tempst2;
+			while ( tempst2 != tempst && !(tempst2.empty()))
 			{
-				temp._isCompleteConstrained = true;
+				if (tempst2 == "COMPLETE_CONSTRAIN")
+					temp._isCompleteConstrained = true;
+				else
+				{
+					if (tempst2 == "ABORT_TIME")
+						temp._abortTimeOutput = true;
+					else
+						std::cout << "Not a valid ST constrain option. Possibilities: COMPLETE_CONSTRAIN, ABORT_TIME." << std::endl;
+				}
+				tempst = tempst2;
+				in >> tempst2;
 			}
 
 			if (_isConstrainedST)
