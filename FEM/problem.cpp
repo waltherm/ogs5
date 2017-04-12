@@ -1565,6 +1565,37 @@ if(has_constrained_bc > 0)
 						std::cout << "this process has constrained BCs. reapply BCs." << std::endl;
 					a_pcs->IncorporateBoundaryConditions(rank);
 				}
+
+// Reapply STs if constrained BC
+				#if defined(USE_MPI) || defined(USE_PETSC)
+								int has_constrained_st_i = a_pcs->hasConstrainedST() ? 1 : 0;
+								int n_has_constrained_st = 0;
+				#ifdef USE_PETSC
+								MPI_Comm comm = MPI_COMM_WORLD;
+				#else
+								MPI_Comm comm = comm_DDC;
+				#endif
+								MPI_Allreduce(&has_constrained_st_i, &n_has_constrained_st, 1, MPI_INT, MPI_SUM, comm);
+								if (n_has_constrained_st > 0)
+/* Commented out the following codes because MPI_C_BOOL is supported from the MPI 2.2
+bool has_constrained_bc_i = a_pcs->hasConstrainedBC();
+bool has_constrained_bc = false;
+MPI_Allreduce(&has_constrained_bc_i, &has_constrained_bc, 1, MPI_C_BOOL, MPI_LOR, MPI_COMM_WORLD);
+if(has_constrained_bc > 0)
+*/
+#else
+				if (a_pcs->hasConstrainedST())
+#endif
+				{
+#if defined(USE_MPI) || defined(USE_PETSC)
+					const int rank = mrank;
+#else
+					const int rank = -1;
+#endif
+					if (rank < 1)
+						std::cout << "this process has constrained STs. reapply STs." << std::endl;
+					a_pcs->IncorporateSourceTerms(rank);
+				}
 			}
 			if (!accept)
 				break;
