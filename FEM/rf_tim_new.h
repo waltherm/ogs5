@@ -186,6 +186,7 @@ extern void TIMDelete(std::string);
 #define TIM_FILE_EXTENSION ".tim"
 // ToDo
 extern double aktuelle_zeit;
+extern double previous_time;
 extern size_t aktueller_zeitschritt;
 extern double dt;
 extern int rwpt_numsplits; // JT 2010, for specifying sub time step for random walker in .tim input file

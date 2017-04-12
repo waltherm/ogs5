@@ -60,6 +60,7 @@ public:
 			return buffer_array;
 	}
 	int GetCPLMaxIterations() { return cpl_overall_max_iterations; }
+	int GetCPLMinIterations() { return cpl_overall_min_iterations; }
 
 	/**
 	 * get the geometric objects stored in GEOLIB::GEOObjects

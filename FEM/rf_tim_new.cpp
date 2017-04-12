@@ -38,6 +38,7 @@
 // WW #include "elements.h" //set functions for stability criteria
 // ToDo
 double aktuelle_zeit;
+double previous_time;
 size_t aktueller_zeitschritt = 0;
 double dt = 0.0;
 int rwpt_numsplits = -1; // JT 2010

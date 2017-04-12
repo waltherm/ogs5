@@ -924,8 +924,8 @@ private:
 	void configMaterialParameters();
 	// method to check on constrained source terms
 	bool checkConstrainedST(std::vector<CSourceTerm*>& st_vector, CSourceTerm const& st, CNodeValue const& st_node);
-	void writeConstrainedSTAbortTime(const Constrained& constrained, std::size_t node_id, double value);
-	void writeConstrainedSTReactivateTimeAbort(const Constrained& constrained, std::size_t node_id, double value, double deactivateTime);
+	void writeConstrainedSTAbortTime(const Constrained& constrained, std::size_t node_id, double value, double previous_value);
+	void writeConstrainedSTReactivateTimeAbort(const Constrained& constrained, std::size_t node_id, double value, double previous_value, double deactivateTime);
 	// method to check on constrained boundary conditions
 	bool checkConstrainedBC(CBoundaryCondition const& bc, CBoundaryConditionNode& bc_node, double& bc_value);
 	std::valarray<double> getNodeVelocityVector(const long node_id);

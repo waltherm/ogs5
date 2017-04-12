@@ -22,6 +22,7 @@
 #include "FEMEnums.h"
 #include "Output.h"
 #include "MathTools.h"
+#include "tools.h"
 
 /*--------------------- MPI Parallel  -------------------*/
 #if defined(USE_MPI) || defined(USE_MPI_PARPROC) || defined(USE_MPI_REGSOIL)
@@ -7317,7 +7318,7 @@ bool CRFProcess::checkConstrainedST(std::vector<CSourceTerm*>& st_vector, CSourc
 	bool return_value(false);
 	for (std::size_t i = 0; i < st.getNumberOfConstrainedSTs(); i++)
 	{
-		bool constrained_bool(false); double local_value;
+		bool constrained_bool(false); double local_value, local_previous_value;
 		const Constrained& local_constrained(st.getConstrainedST(i));
 
 		if (local_constrained.constrainedPrimVar == FiniteElement::PRESSURE
@@ -7335,6 +7336,7 @@ bool CRFProcess::checkConstrainedST(std::vector<CSourceTerm*>& st_vector, CSourc
 				{
 					// value of PrimVar of other process at current node
 					local_value = pcs->GetNodeValue(st_node.geo_node_number, 2 * k + 1);
+					local_previous_value = pcs->GetNodeValue(st_node.geo_node_number, 2 * k);
 
 					// FIXME: if getPressureAsHead != -1, then the head is expected
 					// however, getPressureAsHead is part of CBoundaryCondition (m_bc in IncorporateBoundaryConditions)
@@ -7358,29 +7360,60 @@ bool CRFProcess::checkConstrainedST(std::vector<CSourceTerm*>& st_vector, CSourc
 				}
 			}
 		}
+
+		// apply constraints for STs only after minimum number of coupling iterations
+		// should also work for non-coupled problems, if both variables are initialized properly
+		bool previous_constrained_bool = st_vector[st_node.getSTVectorGroup()]->getConstrainedSTNode(i, st_node.getSTVectorIndex());
+		if (constrained_bool
+				&& !previous_constrained_bool
+				&& iter_outer_cpl < _problem->GetCPLMinIterations() - 1) // _problem->GetCPLMaxIterations() > 1 &&
+			constrained_bool = false;
+		else
+		{
+			if (!constrained_bool
+				&& previous_constrained_bool
+				&& iter_outer_cpl < _problem->GetCPLMinIterations() - 1) // _problem->GetCPLMaxIterations() > 1 &&
+			constrained_bool = true;
+		}
+
 		st_vector[st_node.getSTVectorGroup()]->setConstrainedSTNode(i, constrained_bool, st_node.getSTVectorIndex());
+
 		if (constrained_bool)
 		{
 			return_value = true;
 			if (local_constrained._isAbortTimeOutput)
 			{
 				std::cout << "\n\n!!! ConstrainedST has been evaluated true with option ABORT_TIME. " << std::endl;
-				writeConstrainedSTAbortTime(local_constrained, st_node.geo_node_number, local_value);
+				writeConstrainedSTAbortTime(local_constrained, st_node.geo_node_number, local_value, local_previous_value);
 				std::cout << "!!! Stopping simulation now." << std::endl;
 				std::exit(0);
 			}
 			if (local_constrained._isReactivateTimeOutputAbort
 					&& st_vector[st_node.getSTVectorGroup()]->getConstrainedSTNodeDeactivateTime(i, st_node.getSTVectorIndex()) < 0)
-				st_vector[st_node.getSTVectorGroup()]->setConstrainedSTNodeDeactivateTime(i, aktuelle_zeit, st_node.getSTVectorIndex());
+			{
+				double interpolated_value ( interpol(local_value, local_previous_value, aktuelle_zeit, previous_time, local_constrained.constrainedValue) );
+				if (interpolated_value < 0)
+					interpolated_value = 0;
+				if (interpolated_value < previous_time)
+					interpolated_value = previous_time;
+				else
+				{
+					if (interpolated_value > aktuelle_zeit)
+						interpolated_value = aktuelle_zeit;
+				}
+
+				st_vector[st_node.getSTVectorGroup()]->setConstrainedSTNodeDeactivateTime(i, interpolated_value, st_node.getSTVectorIndex());
+			}
 		}
 		else
 		{
 			if (local_constrained._isReactivateTimeOutputAbort
 					&& !(local_constrained._completeConstrainedStateOff)
-					&& st_vector[st_node.getSTVectorGroup()]->getConstrainedSTNodeDeactivateTime(i, st_node.getSTVectorIndex()) >= 0)
+					&& st_vector[st_node.getSTVectorGroup()]->getConstrainedSTNodeDeactivateTime(i, st_node.getSTVectorIndex()) >= 0
+					&& iter_outer_cpl > _problem->GetCPLMinIterations() - 1)
 			{
 				std::cout << "\n\n!!! ConstrainedST has been evaluated true with option REACTIVATE_TIME_ABORT. " << std::endl;
-				writeConstrainedSTReactivateTimeAbort(local_constrained, st_node.geo_node_number, local_value,
+				writeConstrainedSTReactivateTimeAbort(local_constrained, st_node.geo_node_number, local_value, local_previous_value,
 						st_vector[st_node.getSTVectorGroup()]->getConstrainedSTNodeDeactivateTime(i, st_node.getSTVectorIndex()));
 				std::cout << "!!! Stopping simulation now." << std::endl;
 				std::exit(0);
@@ -7391,8 +7424,18 @@ bool CRFProcess::checkConstrainedST(std::vector<CSourceTerm*>& st_vector, CSourc
 	return return_value;
 }
 
-void CRFProcess::writeConstrainedSTAbortTime(const Constrained& constrained, std::size_t node_id, double value)
+void CRFProcess::writeConstrainedSTAbortTime(const Constrained& constrained, std::size_t node_id, double value, double previous_value)
 {
+	double interpolated_value ( interpol(value, previous_value, aktuelle_zeit, previous_time, constrained.constrainedValue) );
+	if (interpolated_value < 0)
+		interpolated_value = 0;
+	if (interpolated_value < previous_time)
+		interpolated_value = previous_time;
+	else
+	{
+		if (interpolated_value > aktuelle_zeit)
+			interpolated_value = aktuelle_zeit;
+	}
 	std::stringstream abortTimeFileSS;
 	abortTimeFileSS << out_vector[0]->getFileBaseName()
 			<< "_ABORT_TIME.txt";
@@ -7400,8 +7443,10 @@ void CRFProcess::writeConstrainedSTAbortTime(const Constrained& constrained, std
 	std::cout << "!!! Writing current simulation time to file " << abortTimeFName << "." << std::endl;
 	ofstream abortTimeFile;
 	abortTimeFile.open(abortTimeFName.c_str());
-	abortTimeFile << aktuelle_zeit
-			<< "\n time step size " << aktueller_zeitschritt
+	abortTimeFile << interpolated_value
+			<< "\n current time " << aktuelle_zeit
+			<< "\n previous time " << previous_time
+			<< "\n current time step " << aktueller_zeitschritt
 			<< "\n constrained PCS_TYPE " << FiniteElement::convertProcessTypeToString(constrained.constrainedProcessType)
 			<< "\n evaluated PRIMARY_VARIABLE " << FiniteElement::convertPrimaryVariableToString(constrained.constrainedPrimVar)
 			<< "\n value should not be " << convertConstrainedTypeToString(constrained.constrainedDirection)
@@ -7411,8 +7456,18 @@ void CRFProcess::writeConstrainedSTAbortTime(const Constrained& constrained, std
 	abortTimeFile.close();
 }
 
-void CRFProcess::writeConstrainedSTReactivateTimeAbort(const Constrained& constrained, std::size_t node_id, double value, double deactivateTime)
+void CRFProcess::writeConstrainedSTReactivateTimeAbort(const Constrained& constrained, std::size_t node_id, double value, double previous_value, double deactivateTime)
 {
+	double interpolated_value ( interpol(value, previous_value, aktuelle_zeit, previous_time, constrained.constrainedValue) );
+	if (interpolated_value < 0)
+		interpolated_value = 0;
+	if (interpolated_value < previous_time)
+		interpolated_value = previous_time;
+	else
+	{
+		if (interpolated_value > aktuelle_zeit)
+			interpolated_value = aktuelle_zeit;
+	}
 	std::stringstream abortTimeFileSS;
 	abortTimeFileSS << out_vector[0]->getFileBaseName()
 			<< "_REACTIVATE_TIME_ABORT.txt";
@@ -7420,10 +7475,12 @@ void CRFProcess::writeConstrainedSTReactivateTimeAbort(const Constrained& constr
 	std::cout << "!!! Writing current simulation time to file " << abortTimeFName << "." << std::endl;
 	ofstream abortTimeFile;
 	abortTimeFile.open(abortTimeFName.c_str());
-	abortTimeFile << aktuelle_zeit - deactivateTime	//TODO probably need fixed number format (setprecision)
+	abortTimeFile << interpolated_value - deactivateTime	//TODO probably need fixed number format (setprecision)
+			<< "\n current time " << aktuelle_zeit
+			<< "\n interpolated time " << interpolated_value
+			<< "\n previous time " << previous_time
 			<< "\n deactivate time " << deactivateTime
-			<< "\n reactivate time " << aktuelle_zeit
-			<< "\n time step size " << aktueller_zeitschritt
+			<< "\n current time step " << aktueller_zeitschritt
 			<< "\n constrained PCS_TYPE " << FiniteElement::convertProcessTypeToString(constrained.constrainedProcessType)
 			<< "\n evaluated PRIMARY_VARIABLE " << FiniteElement::convertPrimaryVariableToString(constrained.constrainedPrimVar)
 			<< "\n value should have not been " << convertConstrainedTypeToString(constrained.constrainedDirection)
@@ -8032,7 +8089,7 @@ void CRFProcess::IncorporateSourceTerms(const int rank)
 				for (std::size_t temp_i(0); temp_i < m_st->getNumberOfConstrainedSTs(); temp_i++)
 				{
 					if (st_vector[cnodev->getSTVectorGroup()]->isCompleteConstrainST(temp_i)
-					    && st_vector[cnodev->getSTVectorGroup()]->getCompleteConstrainedSTStateOff(temp_i))
+							&& st_vector[cnodev->getSTVectorGroup()]->getCompleteConstrainedSTStateOff(temp_i))
 					{
 						continue_bool = true;
 						break;

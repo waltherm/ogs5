@@ -92,6 +92,8 @@ long GetNearestHetVal(long EleIndex, CFEMesh*, long no_values, double** invals);
 double GetAverageHetVal(long EleIndex, CFEMesh*, long no_values, double** invals);
 extern double GetHetValue(int, char*); // SB
 
+double interpol(double x1, double x2, double zx1, double zx2, double xn);
+
 typedef struct
 {
 	int nof; // number of field values

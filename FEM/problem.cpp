@@ -1183,6 +1183,7 @@ void Problem::Euler_TimeDiscretize()
 		// Update time settings
 		aktueller_zeitschritt++;
 		current_time += dt;
+		previous_time = aktuelle_zeit;
 		aktuelle_zeit = current_time;
 //
 // Print messsage
@@ -1254,6 +1255,7 @@ void Problem::Euler_TimeDiscretize()
 			ScreenMessage("This step is rejected: Redo, with a new time step.\n");
 			rejected_times++;
 			current_time -= dt;
+			previous_time = aktuelle_zeit;
 			aktuelle_zeit = current_time;
 			aktueller_zeitschritt--;
 			previous_rejected_dt = dt;
