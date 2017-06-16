@@ -7475,7 +7475,9 @@ void CRFProcess::writeConstrainedSTReactivateTimeAbort(const Constrained& constr
 	std::cout << "!!! Writing current simulation time to file " << abortTimeFName << "." << std::endl;
 	ofstream abortTimeFile;
 	abortTimeFile.open(abortTimeFName.c_str());
-	abortTimeFile << interpolated_value - deactivateTime	//TODO probably need fixed number format (setprecision)
+	double reactivateTime = interpolated_value - deactivateTime;
+	abortTimeFile << 1 / reactivateTime
+			<< "\n reactivate Time " << reactivateTime	//TODO probably need fixed number format (setprecision)
 			<< "\n current time " << aktuelle_zeit
 			<< "\n interpolated time " << interpolated_value
 			<< "\n previous time " << previous_time
