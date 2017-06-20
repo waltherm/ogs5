@@ -7368,13 +7368,10 @@ bool CRFProcess::checkConstrainedST(std::vector<CSourceTerm*>& st_vector, CSourc
 				&& !previous_constrained_bool
 				&& iter_outer_cpl < _problem->GetCPLMinIterations() - 1) // _problem->GetCPLMaxIterations() > 1 &&
 			constrained_bool = false;
-		else
-		{
-			if (!constrained_bool
+		else if (!constrained_bool
 				&& previous_constrained_bool
 				&& iter_outer_cpl < _problem->GetCPLMinIterations() - 1) // _problem->GetCPLMaxIterations() > 1 &&
 			constrained_bool = true;
-		}
 
 		st_vector[st_node.getSTVectorGroup()]->setConstrainedSTNode(i, constrained_bool, st_node.getSTVectorIndex());
 
@@ -7407,18 +7404,23 @@ bool CRFProcess::checkConstrainedST(std::vector<CSourceTerm*>& st_vector, CSourc
 		}
 		else
 		{
-			if (local_constrained._isReactivateTimeOutputAbort
-					&& !(local_constrained._completeConstrainedStateOff)
-					&& st_vector[st_node.getSTVectorGroup()]->getConstrainedSTNodeDeactivateTime(i, st_node.getSTVectorIndex()) >= 0
-					&& iter_outer_cpl > _problem->GetCPLMinIterations() - 1)
-			{
-				std::cout << "\n\n!!! ConstrainedST has been evaluated true with option REACTIVATE_TIME_ABORT. " << std::endl;
-				writeConstrainedSTReactivateTimeAbort(local_constrained, st_node.geo_node_number, local_value, local_previous_value,
-						st_vector[st_node.getSTVectorGroup()]->getConstrainedSTNodeDeactivateTime(i, st_node.getSTVectorIndex()));
-				std::cout << "!!! Stopping simulation now." << std::endl;
-				std::exit(0);
+			if (local_constrained._isReactivateTimeOutputAbort){
+				if ( !(local_constrained._completeConstrainedStateOff)){
+					if (st_vector[st_node.getSTVectorGroup()]->getConstrainedSTNodeDeactivateTime(i, st_node.getSTVectorIndex()) >= 0){
+						if (iter_outer_cpl >= _problem->GetCPLMinIterations() - 1){
+							{
+								std::cout << "\n\n!!! ConstrainedST has been evaluated true with option REACTIVATE_TIME_ABORT. " << std::endl;
+								writeConstrainedSTReactivateTimeAbort(local_constrained, st_node.geo_node_number, local_value, local_previous_value,
+										st_vector[st_node.getSTVectorGroup()]->getConstrainedSTNodeDeactivateTime(i, st_node.getSTVectorIndex()));
+								std::cout << "!!! Stopping simulation now." << std::endl;
+								std::exit(0);
+							}
+						}
+					}
+				}
 			}
 		}
+
 	}
 
 	return return_value;
@@ -7476,8 +7478,9 @@ void CRFProcess::writeConstrainedSTReactivateTimeAbort(const Constrained& constr
 	ofstream abortTimeFile;
 	abortTimeFile.open(abortTimeFName.c_str());
 	double reactivateTime = interpolated_value - deactivateTime;
-	abortTimeFile << 1 / reactivateTime
+	abortTimeFile << std::log10(reactivateTime)
 			<< "\n reactivate Time " << reactivateTime	//TODO probably need fixed number format (setprecision)
+			<< "\n inverse reactivate Time " << 1 / reactivateTime
 			<< "\n current time " << aktuelle_zeit
 			<< "\n interpolated time " << interpolated_value
 			<< "\n previous time " << previous_time
