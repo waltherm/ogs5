@@ -7465,11 +7465,11 @@ void CRFProcess::writeConstrainedSTReactivateTimeAbort(const Constrained& constr
 		interpolated_value = 0;
 	if (interpolated_value < previous_time)
 		interpolated_value = previous_time;
-	else
-	{
-		if (interpolated_value > aktuelle_zeit)
-			interpolated_value = aktuelle_zeit;
-	}
+	if (interpolated_value <= deactivateTime)
+		interpolated_value = aktuelle_zeit;
+	if (interpolated_value > aktuelle_zeit)
+		interpolated_value = aktuelle_zeit;
+
 	std::stringstream abortTimeFileSS;
 	abortTimeFileSS << out_vector[0]->getFileBaseName()
 			<< "_REACTIVATE_TIME_ABORT.txt";
